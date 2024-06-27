@@ -1,7 +1,7 @@
 ### GoodFirstIssueFinder
 
 GoodFirstIssueFinder is a simple web application designed to help developers discover and contribute to "good first
-issues" in open source projects.
+issues" on Github.
 
 Pull requests are welcome to enhance this project.
 
