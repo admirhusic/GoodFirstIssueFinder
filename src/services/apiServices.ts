@@ -5,32 +5,48 @@ const BASE_URL = "https://api.github.com/search";
 
 const api = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+    Accept: "application/vnd.github.v3+json",
+  },
 });
 
 const apiService = {
-  searchIssues: async (): Promise<{
+  searchIssues: async (
+    language: string | null,
+    searchString: string | null,
+  ): Promise<{
     total_count: number;
     incomplete_results: boolean;
     error: string;
     items: GitHubIssue[] | null;
   }> => {
     const labelQueryParam = 'label:"good first issue" ';
-    const lanugageQueryParam = "language:javascript ";
+    const languageQueryParam = `language:${language} `;
     const stateQueryParam = "state:open ";
+    const searchQueryParam = searchString ? `${searchString} ` : "";
 
     try {
       const response = await api.get("/issues", {
         params: {
-          q: `${labelQueryParam}${lanugageQueryParam}${stateQueryParam}`,
+          q: `${searchQueryParam}${labelQueryParam}${languageQueryParam}${stateQueryParam}`,
           sort: "created",
           order: "desc",
           page: 1,
           per_page: 25,
         },
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
       });
+
+      // add language since there is no language in the issue response
+      await Promise.all(
+        response.data.items.map(async (issue: GitHubIssue) => {
+          const data = await apiService.getRepoDetails(issue.repository_url);
+          issue.repository_language = data.language;
+          issue.repository_stars = data.stargazers_count;
+          console.log(data);
+        }),
+      );
+
       return response.data;
     } catch (error: any) {
       if (error.response) {
@@ -73,6 +89,11 @@ const apiService = {
         };
       }
     }
+  },
+
+  getRepoDetails: async (repoUrl: string) => {
+    const response = await api.get(repoUrl);
+    return response.data;
   },
 };
 

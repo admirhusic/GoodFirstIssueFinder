@@ -1,11 +1,24 @@
 import React from "react";
+import LanguageFilter from "./LanguageFilter";
 
-export default function SearchInput() {
-    return (
-        <div className={"sm:w-full md:w-1/2 lg:w-1/2 mx-auto"}>
-            <input
-                className="shadow appearance-none border border-blue-950 rounded sm:w-full md:w-full lg:w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="filter-input" type="text" placeholder="filter issues"/>
-        </div>
-    )
+export interface SearchInputI {
+  onLanguageChange: (language: string) => void;
+  onSearchStringChange: (searchString: string) => void;
+}
+
+export default function SearchInput(props: SearchInputI) {
+  return (
+    <div>
+      <div className={"sm:w-full md:w-1/2 lg:w-1/2 mx-auto"}>
+        <input
+          className="shadow appearance-none border border-blue-950 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-full md:w-full lg:w-full py-2 px-3 mb-3 "
+          id="filter-input"
+          type="text"
+          placeholder="filter issues"
+          onChange={(e) => props.onSearchStringChange(e.target.value)}
+        />
+      </div>
+      <LanguageFilter onLanguageChange={props.onLanguageChange} />
+    </div>
+  );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { GitHubIssue, GitHubUser } from "../types";
 import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.svg";
 import { ReactComponent as OpenIssueSVG } from "../svg/open_issue.svg";
+import { ReactComponent as StarSVGIcon } from "../svg/star.svg";
 import Pagination from "./Pagination";
 
 interface IssueListI {
@@ -18,7 +19,6 @@ export default function IssueList(props: IssueListI) {
         <div className="flex flex-col justify-center items-center">
           <div role="status">
             <LoadingIndicatorSVG />
-            <span className="sr-only">Loading...</span>
           </div>
         </div>
       ) : error ? (
@@ -63,6 +63,14 @@ export default function IssueList(props: IssueListI) {
                             {repo}
                           </span>
                         </a>
+
+                        <span
+                          className={
+                            "rounded bg-gray-100 text-sm px-1 flex flex-row justify-center align-middle items-center border"
+                          }
+                        >
+                          <StarSVGIcon /> {issue.repository_stars}
+                        </span>
                       </div>
                       <div className={"flex flex-row items-center"}>
                         <span className={"mr-1"}>
@@ -100,15 +108,19 @@ export default function IssueList(props: IssueListI) {
                           )}
                         </div>
                       )}
-                      <div className={"mt-1"}>
-                        <span
-                          className={
-                            "bg-blue-950 rounded text-white text-xs font-light px-3 py-1"
-                          }
-                        >
-                          Javascript
-                        </span>
-                      </div>
+                      {issue.repository_language !== null ? (
+                        <>
+                          <div className={"mt-1"}>
+                            <span
+                              className={
+                                "bg-blue-950 rounded text-white text-xs font-light px-3 py-1"
+                              }
+                            >
+                              {issue.repository_language}
+                            </span>
+                          </div>
+                        </>
+                      ) : null}
                     </div>
                   </li>
                 );
