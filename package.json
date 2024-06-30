@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "prettier": "^3.3.2"
   }
 }
