@@ -5,7 +5,21 @@ export interface LanguageFilterI {
 }
 
 export default function LanguageFilter(props: LanguageFilterI) {
-  const languages = ["Javascript", "Java", "Kotlin", "C", "C++", "C#"].sort();
+  const languages = [
+    "Javascript",
+    "Java",
+    "Kotlin",
+    "C",
+    "C++",
+    "C#",
+    "PHP",
+    "Laravel",
+    "Codeigniter",
+    "React",
+    "Vue",
+    "Angular",
+    "Python",
+  ].sort();
   const [selectedLang, setSelectedLang] = useState("");
 
   const handleLangSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {

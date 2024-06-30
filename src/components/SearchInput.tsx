@@ -9,9 +9,9 @@ export interface SearchInputI {
 export default function SearchInput(props: SearchInputI) {
   return (
     <div>
-      <div className={"sm:w-full md:w-1/2 lg:w-1/2 mx-auto"}>
+      <div className={"sm:w-full lg:w-1/2 mx-auto"}>
         <input
-          className="shadow appearance-none border border-blue-950 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:w-full md:w-full lg:w-full py-2 px-3 mb-3 "
+          className="shadow appearance-none border border-blue-950 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full py-2 px-3 mb-3 "
           id="filter-input"
           type="text"
           placeholder="filter issues"
