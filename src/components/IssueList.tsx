@@ -9,6 +9,9 @@ interface IssueListI {
   issues: GitHubIssue[] | null;
   isLoading: Boolean;
   error: string;
+  currentPage: number;
+  totalPages: number;
+  onChangeCurrentPage: (page: number) => void;
 }
 
 export default function IssueList(props: IssueListI) {
@@ -126,7 +129,11 @@ export default function IssueList(props: IssueListI) {
                 );
               })}
           </ul>
-          <Pagination />
+          <Pagination
+            currentPage={props.currentPage}
+            onChangeCurrentPage={props.onChangeCurrentPage}
+            totalPages={props.totalPages}
+          />
         </div>
       )}
     </div>

@@ -15,6 +15,7 @@ const apiService = {
   searchIssues: async (
     language: string | null,
     searchString: string | null,
+    page: number | null,
   ): Promise<{
     total_count: number;
     incomplete_results: boolean;
@@ -32,8 +33,8 @@ const apiService = {
           q: `${searchQueryParam}${labelQueryParam}${languageQueryParam}${stateQueryParam}`,
           sort: "created",
           order: "desc",
-          page: 1,
-          per_page: 25,
+          page: page,
+          per_page: 10,
         },
       });
 
@@ -46,7 +47,7 @@ const apiService = {
           console.log(data);
         }),
       );
-
+      console.log(response);
       return response.data;
     } catch (error: any) {
       if (error.response) {
