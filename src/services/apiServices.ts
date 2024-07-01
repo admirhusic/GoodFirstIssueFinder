@@ -6,7 +6,7 @@ const BASE_URL = "https://api.github.com/search";
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
-    Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+    Authorization: `Bearer ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
     Accept: "application/vnd.github.v3+json",
   },
 });
