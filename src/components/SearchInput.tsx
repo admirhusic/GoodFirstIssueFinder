@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import LanguageFilter from "./LanguageFilter";
+import { debounce } from "lodash";
 
 export interface SearchInputI {
   onLanguageChange: (language: string) => void;
@@ -7,6 +8,17 @@ export interface SearchInputI {
 }
 
 export default function SearchInput(props: SearchInputI) {
+  const debouncedOnSearchStringChange = useCallback(
+    debounce((value: string) => {
+      props.onSearchStringChange(value);
+    }, 500),
+    [],
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedOnSearchStringChange(e.target.value);
+  };
+
   return (
     <div>
       <div className={"sm:w-full lg:w-1/2 mx-auto"}>
@@ -15,10 +27,10 @@ export default function SearchInput(props: SearchInputI) {
           id="filter-input"
           type="text"
           placeholder="filter issues"
-          onChange={(e) => props.onSearchStringChange(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
-      <LanguageFilter onLanguageChange={props.onLanguageChange} />
+      <LanguageFilter onLanguageChange={debouncedOnSearchStringChange} />
     </div>
   );
 }
