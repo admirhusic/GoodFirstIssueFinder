@@ -10,7 +10,7 @@ interface GetDataFunction {
   (
     language: string | null,
     searchString: string | null,
-    page: number | null,
+    page: number | null
   ): Promise<void>;
 }
 
@@ -25,13 +25,13 @@ function App() {
 
   const getData: GetDataFunction = async (
     language = null,
-    searchString = null,
+    searchString = null
   ) => {
     setIsLoading(true);
     const newData = await apiService.searchIssues(
       language,
       searchString,
-      currentPage,
+      currentPage
     );
     setIsLoading(false);
     if (newData.error) {
@@ -63,6 +63,11 @@ function App() {
   useEffect(() => {
     getData(lanugage, searchString, currentPage);
   }, [currentPage]);
+
+  // Set document title on the page
+  useEffect(() => {
+    document.title = "Good First Issue Finder";
+  });
 
   return (
     <>
