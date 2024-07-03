@@ -1,9 +1,8 @@
 import React from "react";
 import { GitHubIssue, GitHubUser } from "../types";
 import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.svg";
-import { ReactComponent as OpenIssueSVG } from "../svg/open_issue.svg";
-import { ReactComponent as StarSVGIcon } from "../svg/star.svg";
 import Pagination from "./Pagination";
+import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -72,12 +71,12 @@ export default function IssueList(props: IssueListI) {
                             "rounded bg-gray-100 text-sm px-1 flex flex-row justify-center align-middle items-center border"
                           }
                         >
-                          <StarSVGIcon /> {issue.repository_stars}
+                          <StarIcon /> {issue.repository_stars}
                         </span>
                       </div>
                       <div className={"flex flex-row items-center"}>
                         <span className={"mr-1"}>
-                          <OpenIssueSVG fill={"green"} />
+                          <IssueOpenedIcon fill={"green"} />
                         </span>
                         <a
                           target={"_blank"}
