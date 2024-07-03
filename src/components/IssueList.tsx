@@ -3,6 +3,7 @@ import { GitHubIssue, GitHubUser } from "../types";
 import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.svg";
 import Pagination from "./Pagination";
 import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
+import { strings } from "../strings";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
