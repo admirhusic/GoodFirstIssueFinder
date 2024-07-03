@@ -5,6 +5,7 @@ import { GitHubIssue } from "./types";
 import Navbar from "./components/Navbar";
 import IssueList from "./components/IssueList";
 import SearchInput from "./components/SearchInput";
+import { strings } from "./strings";
 
 interface GetDataFunction {
   (
@@ -18,7 +19,7 @@ function App() {
   const [issues, setIssues] = useState<GitHubIssue[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [lanugage, setLanguage] = useState<string | null>(null);
+  const [language, setLanguage] = useState<string | null>(null);
   const [searchString, setSearchString] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -51,9 +52,9 @@ function App() {
     getData(language, searchString, currentPage);
   };
 
-  const onSearchInputchange = (searchString: string) => {
+  const onSearchInputChange = (searchString: string) => {
     setSearchString(searchString);
-    getData(lanugage, searchString, currentPage);
+    getData(language, searchString, currentPage);
   };
 
   const onChangeCurrentPage = (page: number) => {
@@ -61,12 +62,12 @@ function App() {
   };
 
   useEffect(() => {
-    getData(lanugage, searchString, currentPage);
+    getData(language, searchString, currentPage);
   }, [currentPage]);
 
   // Set document title on the page
   useEffect(() => {
-    document.title = "Good First Issue Finder";
+    document.title = strings.documentTitle
   });
 
   return (
@@ -76,7 +77,7 @@ function App() {
         <div className={"container mx-auto flex flex-col pt-[50px]"}>
           <SearchInput
             onLanguageChange={onLanguageChange}
-            onSearchStringChange={onSearchInputchange}
+            onSearchStringChange={onSearchInputChange}
           />
           <IssueList
             isLoading={isLoading}
