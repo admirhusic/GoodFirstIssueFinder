@@ -4,6 +4,7 @@ import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.
 import { ReactComponent as OpenIssueSVG } from "../svg/open_issue.svg";
 import { ReactComponent as StarSVGIcon } from "../svg/star.svg";
 import Pagination from "./Pagination";
+import { strings } from "../strings";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -30,7 +31,7 @@ export default function IssueList(props: IssueListI) {
         </div>
       ) : issues?.length === 0 ? (
         <div className="text-center">
-          <p>No issues found.</p>
+          <p>{strings.noIssuesFound}</p>
         </div>
       ) : (
         <div className={"pb-6"}>
@@ -98,13 +99,13 @@ export default function IssueList(props: IssueListI) {
                       ) : (
                         <div>
                           {issue.assignees.map(
-                            (asign: GitHubUser, key: number) => (
+                            (assign: GitHubUser, key: number) => (
                               <img
                                 key={key}
                                 className={
                                   "rounded-xl w-[25px] h-[25px] mr-1 inline"
                                 }
-                                src={asign.avatar_url}
+                                src={assign.avatar_url}
                                 alt=""
                               />
                             ),
