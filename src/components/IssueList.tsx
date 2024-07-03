@@ -92,7 +92,7 @@ export default function IssueList(props: IssueListI) {
                       {!issue.assignees.length ? (
                         <div key={key} className={"flex flex-row items-center"}>
                           <span className={"text-xs text-green-500"}>
-                            No assignee yet
+                            {strings.noAssignee}
                           </span>
                         </div>
                       ) : (
@@ -107,7 +107,7 @@ export default function IssueList(props: IssueListI) {
                                 src={assign.avatar_url}
                                 alt=""
                               />
-                            ),
+                            )
                           )}
                         </div>
                       )}

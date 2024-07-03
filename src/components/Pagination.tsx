@@ -12,7 +12,7 @@ export interface PaginationI {
 export default function Pagination(props: PaginationI) {
   const { currentPage, onChangeCurrentPage, totalPages } = props;
   const maxVisiblePages = 10;
-  const maxPages = Math.min(totalPages, 100); // Ensure the maximum pages to display is 1000
+  const maxPages = Math.min(totalPages, 100); // Ensure the maximum pages to display is 100
 
   let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
   let endPage = Math.min(maxPages, startPage + maxVisiblePages - 1);

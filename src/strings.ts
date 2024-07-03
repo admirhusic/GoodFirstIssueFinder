@@ -10,5 +10,6 @@ export const strings = {
   error: "Error",
   accessDeniedError: "Access denied. Please check your permissions.",
   noResponseError: "No response from server. Please try again later.",
-  unexpectedError: "An unexpected error occurred. Please try again."
+  unexpectedError: "An unexpected error occurred. Please try again.",
+  noAssignee: "No assignee yet"
 };
