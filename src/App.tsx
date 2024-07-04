@@ -6,12 +6,13 @@ import Navbar from "./components/Navbar";
 import IssueList from "./components/IssueList";
 import SearchInput from "./components/SearchInput";
 import { strings } from "./strings";
+import RefreshButton from "./components/RefreshButton";
 
 interface GetDataFunction {
   (
     language: string | null,
     searchString: string | null,
-    page: number | null
+    page: number | null,
   ): Promise<void>;
 }
 
@@ -26,13 +27,13 @@ function App() {
 
   const getData: GetDataFunction = async (
     language = null,
-    searchString = null
+    searchString = null,
   ) => {
     setIsLoading(true);
     const newData = await apiService.searchIssues(
       language,
       searchString,
-      currentPage
+      currentPage,
     );
     setIsLoading(false);
     if (newData.error) {
@@ -67,8 +68,12 @@ function App() {
 
   // Set document title on the page
   useEffect(() => {
-    document.title = strings.documentTitle
+    document.title = strings.documentTitle;
   });
+
+  const onRefreshButtonClick = () => {
+    getData(language, searchString, currentPage);
+  };
 
   return (
     <>
@@ -79,6 +84,16 @@ function App() {
             onLanguageChange={onLanguageChange}
             onSearchStringChange={onSearchInputChange}
           />
+          <div
+            className={
+              "flex flex-row sm:w-full md:w-1/2 lg:w-1/2 mx-auto justify-end align-middle items-end mb-2"
+            }
+          >
+            <RefreshButton
+              isAnimating={isLoading}
+              onClick={onRefreshButtonClick}
+            />
+          </div>
           <IssueList
             isLoading={isLoading}
             error={error}
