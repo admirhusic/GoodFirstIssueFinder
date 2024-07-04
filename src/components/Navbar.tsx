@@ -1,5 +1,6 @@
 import React from "react";
 import { LogoGithubIcon, MarkGithubIcon } from "@primer/octicons-react";
+import { strings } from "../strings";
 
 export default function Navbar() {
   return (
@@ -10,7 +11,7 @@ export default function Navbar() {
         }
       >
         <div>
-          <span>FGFI</span> {/**  We are waiting for your logo design ;) */}
+          <span>{strings.logoText}</span> {/**  We are waiting for your logo design ;) */}
         </div>
         <div>
           {/*

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GitHubIssue } from "../types";
+import { strings } from "../strings";
 
 const BASE_URL = "https://api.github.com/search";
 
@@ -60,14 +61,14 @@ const apiService = {
             incomplete_results: false,
             items: null,
             total_count: 0,
-            error: "Access denied. Please check your permissions.",
+            error: strings.accessDeniedError,
           };
         } else {
           return {
             incomplete_results: false,
             items: null,
             total_count: 0,
-            error: `Error: ${error.response.status} ${error.response.statusText}`,
+            error: `${strings.error}: ${error.response.status} ${error.response.statusText}`,
           };
         }
       } else if (error.request) {
@@ -77,7 +78,7 @@ const apiService = {
           incomplete_results: false,
           items: null,
           total_count: 0,
-          error: "No response from server. Please try again later.",
+          error: strings.noResponseError,
         };
       } else {
         // Something happened in setting up the request that triggered an Error
@@ -86,7 +87,7 @@ const apiService = {
           incomplete_results: false,
           items: null,
           total_count: 0,
-          error: "An unexpected error occurred. Please try again.",
+          error: strings.unexpectedError,
         };
       }
     }

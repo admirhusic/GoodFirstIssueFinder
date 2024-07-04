@@ -3,6 +3,7 @@ import { GitHubIssue, GitHubUser } from "../types";
 import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.svg";
 import Pagination from "./Pagination";
 import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
+import { strings } from "../strings";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -29,7 +30,7 @@ export default function IssueList(props: IssueListI) {
         </div>
       ) : issues?.length === 0 ? (
         <div className="text-center">
-          <p>No issues found.</p>
+          <p>{strings.noIssuesFound}</p>
         </div>
       ) : (
         <div className={"pb-6"}>
@@ -91,22 +92,22 @@ export default function IssueList(props: IssueListI) {
                       {!issue.assignees.length ? (
                         <div key={key} className={"flex flex-row items-center"}>
                           <span className={"text-xs text-green-500"}>
-                            No assignee yet
+                            {strings.noAssignee}
                           </span>
                         </div>
                       ) : (
                         <div>
                           {issue.assignees.map(
-                            (asign: GitHubUser, key: number) => (
+                            (assign: GitHubUser, key: number) => (
                               <img
                                 key={key}
                                 className={
                                   "rounded-xl w-[25px] h-[25px] mr-1 inline"
                                 }
-                                src={asign.avatar_url}
+                                src={assign.avatar_url}
                                 alt=""
                               />
-                            ),
+                            )
                           )}
                         </div>
                       )}

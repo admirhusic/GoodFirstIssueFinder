@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { strings } from "../strings";
 
 export interface LanguageFilterI {
   onLanguageChange: (language: string) => void;
@@ -35,9 +36,9 @@ export default function LanguageFilter(props: LanguageFilterI) {
         onChange={handleLangSelect}
       >
         <option disabled value="">
-          Select a language
+          {strings.languageSelection}
         </option>
-        <option value="">All languages</option>
+        <option value="">{strings.allLanguages}</option>
         {languages.map((lang, key) => (
           <option value={lang} key={key}>
             {lang}

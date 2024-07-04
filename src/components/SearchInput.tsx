@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import LanguageFilter from "./LanguageFilter";
 import { debounce } from "lodash";
+import { strings } from "../strings";
 
 export interface SearchInputI {
   onLanguageChange: (language: string) => void;
@@ -26,7 +27,7 @@ export default function SearchInput(props: SearchInputI) {
           className="shadow appearance-none border border-blue-950 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full py-2 px-3 mb-3 "
           id="filter-input"
           type="text"
-          placeholder="filter issues"
+          placeholder={strings.filterIssuesPlaceholder}
           onChange={handleInputChange}
         />
       </div>
