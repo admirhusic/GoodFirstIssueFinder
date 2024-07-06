@@ -11,5 +11,7 @@ export const strings = {
   accessDeniedError: "Access denied. Please check your permissions.",
   noResponseError: "No response from server. Please try again later.",
   unexpectedError: "An unexpected error occurred. Please try again.",
-  noAssignee: "No assignee yet"
+  noAssignee: "No assignee yet",
+  listItemError: "Error loading data",
+  listItemReloadButtonLabel: "Reload",
 };

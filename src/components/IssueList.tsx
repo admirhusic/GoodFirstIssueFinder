@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GitHubIssue, GitHubUser } from "../types";
 import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
 import { strings } from "../strings";
@@ -12,11 +12,20 @@ interface IssueListI {
   error: string;
   totalPages: number;
   onReachedBottom: () => void;
+  currentPage: number;
+  onRetry: () => void;
 }
 
 export default function IssueList(props: IssueListI) {
-  const { issues, isLoading, isLoadingFullPage, error, onReachedBottom } =
-    props;
+  const {
+    issues,
+    isLoading,
+    isLoadingFullPage,
+    error,
+    onReachedBottom,
+    currentPage,
+    onRetry,
+  } = props;
   const loaderRef = useRef(null);
 
   useEffect(() => {
@@ -38,6 +47,10 @@ export default function IssueList(props: IssueListI) {
     };
   }, [onReachedBottom]);
 
+  const onRetryButtonClick = () => {
+    onRetry();
+  };
+
   return (
     <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
       {isLoadingFullPage ? (
@@ -50,7 +63,7 @@ export default function IssueList(props: IssueListI) {
             />
           </div>
         </div>
-      ) : error ? (
+      ) : error && currentPage === 1 ? (
         <div className="text-red-500 text-center">
           <p>{error}</p>
         </div>
@@ -155,18 +168,43 @@ export default function IssueList(props: IssueListI) {
                 );
               })}
           </ul>
-          <div
-            ref={loaderRef}
-            className={
-              "container flex flex-col justify-center items-center text-center h-20 border-r border-l border-b rounded-b"
-            }
-          >
-            <FontAwesomeIcon
-              size={"xl"}
-              className={"animate-spin-slow"}
-              icon={faCircleNotch}
-            />
-          </div>
+          {error && currentPage > 1 ? (
+            <div
+              className={
+                "container flex flex-col justify-center items-center h-20 border"
+              }
+            >
+              <p className={"pb-1"}>{strings.listItemError}</p>
+              <button
+                onClick={onRetryButtonClick}
+                className={
+                  "bg-blue-950 rounded py-1 px-3 text-white text-xs hover:bg-blue-800 cursor-pointer"
+                }
+              >
+                {isLoading ? (
+                  <FontAwesomeIcon
+                    size={"sm"}
+                    className={"animate-spin-slow"}
+                    icon={faCircleNotch}
+                  />
+                ) : null}
+                {strings.listItemReloadButtonLabel}
+              </button>
+            </div>
+          ) : (
+            <div
+              ref={loaderRef}
+              className={
+                "container flex flex-col justify-center items-center text-center h-20 border-r border-l border-b rounded-b"
+              }
+            >
+              <FontAwesomeIcon
+                size={"xl"}
+                className={"animate-spin-slow"}
+                icon={faCircleNotch}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

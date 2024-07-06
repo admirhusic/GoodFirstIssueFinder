@@ -39,8 +39,10 @@ function App() {
     setIsLoading(false);
     if (newData.error) {
       setError(newData.error);
+      setIsLoading(false);
     } else {
       if (issues) {
+        setError("");
         const newIssues = issues.concat(newData.items || []);
         setIssues(newIssues);
       } else {
@@ -76,6 +78,11 @@ function App() {
     getData(language, searchString, currentPage);
   };
 
+  const retry = () => {
+    if (isLoading) return;
+    getData(language, searchString, currentPage);
+  };
+
   return (
     <>
       <div>
@@ -102,6 +109,8 @@ function App() {
             issues={issues}
             totalPages={totalPages}
             onReachedBottom={loadNewData}
+            currentPage={currentPage}
+            onRetry={retry}
           />
         </div>
       </div>
