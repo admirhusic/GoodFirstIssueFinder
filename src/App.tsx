@@ -24,6 +24,7 @@ function App() {
   const [searchString, setSearchString] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [isLoadingFullPage, setIsLoadingFullPage] = useState(true);
 
   const getData: GetDataFunction = async (
     language = null,
@@ -39,13 +40,20 @@ function App() {
     if (newData.error) {
       setError(newData.error);
     } else {
-      setIssues(newData.items);
+      if (issues) {
+        const newIssues = issues.concat(newData.items || []);
+        setIssues(newIssues);
+      } else {
+        setIssues(newData.items);
+      }
       setTotalPages(newData.total_count);
     }
   };
 
   useEffect(() => {
-    getData(null, null, currentPage);
+    getData(null, null, currentPage).then(() => {
+      setIsLoadingFullPage(false);
+    });
   }, []);
 
   const onLanguageChange = (language: string) => {
@@ -58,20 +66,13 @@ function App() {
     getData(language, searchString, currentPage);
   };
 
-  const onChangeCurrentPage = (page: number) => {
-    setCurrentPage(page);
+  const onRefreshButtonClick = () => {
+    getData(language, searchString, currentPage);
   };
 
-  useEffect(() => {
-    getData(language, searchString, currentPage);
-  }, [currentPage]);
-
-  // Set document title on the page
-  useEffect(() => {
-    document.title = strings.documentTitle;
-  });
-
-  const onRefreshButtonClick = () => {
+  const loadNewData = () => {
+    if (isLoading) return;
+    setCurrentPage((prevPage) => prevPage + 1);
     getData(language, searchString, currentPage);
   };
 
@@ -95,12 +96,12 @@ function App() {
             />
           </div>
           <IssueList
+            isLoadingFullPage={isLoadingFullPage}
             isLoading={isLoading}
             error={error}
             issues={issues}
-            currentPage={currentPage}
             totalPages={totalPages}
-            onChangeCurrentPage={onChangeCurrentPage}
+            onReachedBottom={loadNewData}
           />
         </div>
       </div>

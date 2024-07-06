@@ -45,10 +45,8 @@ const apiService = {
           const data = await apiService.getRepoDetails(issue.repository_url);
           issue.repository_language = data.language;
           issue.repository_stars = data.stargazers_count;
-          console.log(data);
         }),
       );
-      console.log(response);
       return response.data;
     } catch (error: any) {
       if (error.response) {

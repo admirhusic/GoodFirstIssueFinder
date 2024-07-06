@@ -1,27 +1,53 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { GitHubIssue, GitHubUser } from "../types";
-import { ReactComponent as LoadingIndicatorSVG } from "../svg/loading_indicator.svg";
-import Pagination from "./Pagination";
 import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
 import { strings } from "../strings";
+import { faCircleNotch, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
   isLoading: Boolean;
+  isLoadingFullPage: Boolean;
   error: string;
-  currentPage: number;
   totalPages: number;
-  onChangeCurrentPage: (page: number) => void;
+  onReachedBottom: () => void;
 }
 
 export default function IssueList(props: IssueListI) {
-  const { issues, isLoading, error } = props;
+  const { issues, isLoading, isLoadingFullPage, error, onReachedBottom } =
+    props;
+  const loaderRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        onReachedBottom();
+      }
+    });
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [onReachedBottom]);
+
   return (
     <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
-      {isLoading ? (
+      {isLoadingFullPage ? (
         <div className="flex flex-col justify-center items-center">
           <div role="status">
-            <LoadingIndicatorSVG />
+            <FontAwesomeIcon
+              size={"xl"}
+              className={"animate-spin-slow"}
+              icon={faCircleNotch}
+            />
           </div>
         </div>
       ) : error ? (
@@ -43,7 +69,7 @@ export default function IssueList(props: IssueListI) {
                 return (
                   <li key={key} className={""}>
                     <div
-                      className={`w-full ${key === 0 ? "border-t rounded" : "border-t-0"} border-r border-b border-l py-2 px-3 hover:bg-gray-100`}
+                      className={`w-full ${key === 0 ? "border-t rounded-t" : "border-t-0"} border-r border-b border-l py-2 px-3 hover:bg-gray-100`}
                     >
                       <div className={"flex flex-row"}>
                         <a
@@ -107,7 +133,7 @@ export default function IssueList(props: IssueListI) {
                                 src={assign.avatar_url}
                                 alt=""
                               />
-                            )
+                            ),
                           )}
                         </div>
                       )}
@@ -129,11 +155,18 @@ export default function IssueList(props: IssueListI) {
                 );
               })}
           </ul>
-          <Pagination
-            currentPage={props.currentPage}
-            onChangeCurrentPage={props.onChangeCurrentPage}
-            totalPages={props.totalPages}
-          />
+          <div
+            ref={loaderRef}
+            className={
+              "container flex flex-col justify-center items-center text-center h-20 border-r border-l border-b rounded-b"
+            }
+          >
+            <FontAwesomeIcon
+              size={"xl"}
+              className={"animate-spin-slow"}
+              icon={faCircleNotch}
+            />
+          </div>
         </div>
       )}
     </div>
