@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { GitHubIssue, GitHubUser } from "../types";
 import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
 import { strings } from "../strings";
-import { faCircleNotch, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Popover from "./Popover";
+import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -85,15 +87,20 @@ export default function IssueList(props: IssueListI) {
                       className={`w-full ${key === 0 ? "border-t rounded-t" : "border-t-0"} border-r border-b border-l py-2 px-3 hover:bg-gray-100`}
                     >
                       <div className={"flex flex-row"}>
-                        <a
-                          target={"_blank"}
-                          rel="noreferrer"
-                          href={`https://github.com/${profile}`}
+                        <Popover
+                          trigger={"hover"}
+                          content={UserProfilePopoverContent(issue)}
                         >
-                          <span className={"hover:bg-gray-200 rounded px-1"}>
-                            {profile}
-                          </span>
-                        </a>
+                          <a
+                            target={"_blank"}
+                            rel="noreferrer"
+                            href={`https://github.com/${profile}`}
+                          >
+                            <span className={"hover:bg-gray-200 rounded px-1"}>
+                              {profile}
+                            </span>
+                          </a>
+                        </Popover>
 
                         <span className={"mx-1"}>{"/"}</span>
                         <a
