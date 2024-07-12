@@ -5,16 +5,14 @@ export interface UserProfilePopoverContentI {
   issue: GitHubIssue;
 }
 
-export default function UserProfilePopoverContent({ user }: GitHubIssue) {
-  const profile = `${user.html_url.split("/")[3]}`;
+export default function UserProfilePopoverContent(props: GitHubIssue) {
   return (
-    <div className={"bg-gray-200 text-black rounded p-3 flex flex-col"}>
+    <div className={"bg-gray-200 text-black rounded p-1 flex flex-col w-20"}>
       <img
-        alt={profile}
-        className={"rounded h-10 w-10"}
-        src={user.avatar_url}
+        alt={props.user.login}
+        className={"rounded w-full mx-auto"}
+        src={props.user.avatar_url}
       />
-      {profile}
     </div>
   );
 }
