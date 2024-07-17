@@ -20,7 +20,7 @@ function App() {
   const [issues, setIssues] = useState<GitHubIssue[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [language, setLanguage] = useState<string | null>(null);
+  const [languages, setLanguages] = useState<string[]>([]);
   const [searchString, setSearchString] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -58,8 +58,18 @@ function App() {
     });
   }, []);
 
-  const onLanguageChange = (language: string) => {
-    setLanguage(language);
+  const onLanguageChange = (language: string, action: 'add' | 'delete') => {
+    switch (action) {
+      case 'add': {
+        setLanguages((langs) => [...langs, language]);
+        break
+      }
+      case 'delete': {
+        setLanguages((langs) => langs.filter(lang => lang !== language))
+      }
+    }
+
+    // TODO: After setting the new array state we need to query GitHub with the whole array
     getData(language, searchString, currentPage);
   };
 
@@ -91,6 +101,7 @@ function App() {
           <SearchInput
             onLanguageChange={onLanguageChange}
             onSearchStringChange={onSearchInputChange}
+            currentLanguages={languages}
           />
           <div
             className={
