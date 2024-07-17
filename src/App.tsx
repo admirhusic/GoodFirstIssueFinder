@@ -10,7 +10,7 @@ import RefreshButton from "./components/RefreshButton";
 
 interface GetDataFunction {
   (
-    language: string | null,
+    languages: string[] | null,
     searchString: string | null,
     page: number | null,
   ): Promise<void>;
@@ -27,15 +27,16 @@ function App() {
   const [isLoadingFullPage, setIsLoadingFullPage] = useState(true);
 
   const getData: GetDataFunction = async (
-    language = null,
+    languages = null,
     searchString = null,
   ) => {
     setIsLoading(true);
     const newData = await apiService.searchIssues(
-      language,
+      languages,
       searchString,
       currentPage,
     );
+    console.log({ newData })
     setIsLoading(false);
     if (newData.error) {
       setError(newData.error);
@@ -44,6 +45,7 @@ function App() {
       if (issues) {
         setError("");
         const newIssues = issues.concat(newData.items || []);
+        console.log({ newData })
         setIssues(newIssues);
       } else {
         setIssues(newData.items);
@@ -53,10 +55,11 @@ function App() {
   };
 
   useEffect(() => {
-    getData(null, null, currentPage).then(() => {
+    getData(languages, searchString, currentPage).then(() => {
       setIsLoadingFullPage(false);
     });
-  }, []);
+  }, [languages, searchString, currentPage]);
+
 
   const onLanguageChange = (language: string, action: 'add' | 'delete') => {
     switch (action) {
@@ -68,29 +71,24 @@ function App() {
         setLanguages((langs) => langs.filter(lang => lang !== language))
       }
     }
-
-    // TODO: After setting the new array state we need to query GitHub with the whole array
-    getData(language, searchString, currentPage);
   };
 
   const onSearchInputChange = (searchString: string) => {
     setSearchString(searchString);
-    getData(language, searchString, currentPage);
   };
 
   const onRefreshButtonClick = () => {
-    getData(language, searchString, currentPage);
+    getData(languages, searchString, currentPage);
   };
 
   const loadNewData = () => {
     if (isLoading) return;
     setCurrentPage((prevPage) => prevPage + 1);
-    getData(language, searchString, currentPage);
   };
 
   const retry = () => {
     if (isLoading) return;
-    getData(language, searchString, currentPage);
+    getData(languages, searchString, currentPage);
   };
 
   return (

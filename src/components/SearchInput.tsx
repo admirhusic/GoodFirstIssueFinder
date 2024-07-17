@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { strings } from "../strings";
 
 export interface SearchInputI {
-  onLanguageChange: (language: string) => void;
+  onLanguageChange: (language: string, action: 'add' | 'delete') => void;
   onSearchStringChange: (searchString: string) => void;
   currentLanguages: string[]
 }
