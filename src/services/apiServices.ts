@@ -14,7 +14,7 @@ const api = axios.create({
 
 const apiService = {
   searchIssues: async (
-    languages: string[] | null,
+    languages: Set<string> | null,
     searchString: string | null,
     page: number | null,
   ): Promise<{
@@ -24,8 +24,8 @@ const apiService = {
     items: GitHubIssue[] | null;
   }> => {
     const labelQueryParam = 'label:"good first issue" ';
-    console.log(languages)
-    const languageQueryParam = languages ? languages.map(language => `language:${language.toLowerCase()} `).join('') : '';
+    let languageQueryParam = ''
+    languages?.forEach(language => languageQueryParam += `language:${language.toLowerCase()} `)
     const stateQueryParam = "state:open ";
     const searchQueryParam = searchString ? `${searchString} ` : "";
 

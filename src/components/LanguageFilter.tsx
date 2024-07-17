@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import { strings } from "../strings";
 import SelectedLanguage from "./SelectedLanguage";
 
-// TODO: The plan
-// Firstly I need to add more languages (dynamically if i could)
-// Then be able to search through them
-// When picking a language it should have like a small component with a small x button to delete the suggestion
-// then query GitHub after selecting those languages
-
 export interface LanguageFilterI {
   onLanguageChange: (language: string, action: 'add' | 'delete') => void;
-  currentLanguages: string[]
+  currentLanguages: Set<string>
 }
 
 export default function LanguageFilter(props: LanguageFilterI) {
+  // TODO: Increase the list of languages
   const languages = [
     "Javascript",
     "Java",
@@ -29,18 +24,20 @@ export default function LanguageFilter(props: LanguageFilterI) {
     "Angular",
     "Python",
   ].sort();
-  // const [selectedLang, setSelectedLang] = useState("");
   const [searchQuery, setSearchQuery] = useState("")
+  const currentLanguagesArray = Array.from(props.currentLanguages)
 
 
   const filteredLanguages = languages.filter((lang) => lang.toLowerCase().includes(searchQuery.toLowerCase()))
 
   const handleLangSelect = (lang: string) => {
-    // setSelectedLang(e.target.value);
+    if (props.currentLanguages.has(lang)) return
+    setSearchQuery("")
     props.onLanguageChange(lang, 'add');
   };
 
   const handleLangDeletion = (lang: string) => {
+    if (!props.currentLanguages.has(lang)) return
     props.onLanguageChange(lang, 'delete')
   }
 
@@ -52,13 +49,13 @@ export default function LanguageFilter(props: LanguageFilterI) {
   return (
     <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-row items-start justify-start">
 
-      {props.currentLanguages.length > 0 && <div>
-        {props.currentLanguages.map(lang => (
+      {currentLanguagesArray.length > 0 && <div>
+        {currentLanguagesArray.map(lang => (
           <SelectedLanguage key={lang} language={lang} onLanguageDeletion={() => handleLangDeletion(lang)} />
         ))}
       </div>}
 
-      <input type="text" name="language" id="language" value={searchQuery} onChange={handleSearchChange} />
+      <input type="text" name="language" id="language" value={searchQuery} onChange={handleSearchChange} placeholder={strings.searchLanguages} />
 
       {searchQuery && (
         <div className="">

@@ -10,7 +10,7 @@ import RefreshButton from "./components/RefreshButton";
 
 interface GetDataFunction {
   (
-    languages: string[] | null,
+    languages: Set<string> | null,
     searchString: string | null,
     currentPage: number | null,
     scroll?: boolean
@@ -21,7 +21,7 @@ function App() {
   const [issues, setIssues] = useState<GitHubIssue[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [languages, setLanguages] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<Set<string>>(new Set());
   const [searchString, setSearchString] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -70,11 +70,15 @@ function App() {
   const onLanguageChange = (language: string, action: 'add' | 'delete') => {
     switch (action) {
       case 'add': {
-        setLanguages((langs) => [...langs, language]);
+        setLanguages((langs) => new Set(langs).add(language));
         break
       }
       case 'delete': {
-        setLanguages((langs) => langs.filter(lang => lang !== language))
+        setLanguages((langs) => {
+          const newLangs = new Set(langs);
+          newLangs.delete(language)
+          return newLangs
+        })
       }
     }
   };

@@ -6,7 +6,7 @@ import { strings } from "../strings";
 export interface SearchInputI {
   onLanguageChange: (language: string, action: 'add' | 'delete') => void;
   onSearchStringChange: (searchString: string) => void;
-  currentLanguages: string[]
+  currentLanguages: Set<string>
 }
 
 export default function SearchInput(props: SearchInputI) {
