@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import apiService from "./services/apiServices";
 import { GitHubIssue } from "./types";
@@ -25,6 +25,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [isLoadingFullPage, setIsLoadingFullPage] = useState(true);
+  const isMounted = useRef(false)
 
   const getData: GetDataFunction = async (
     languages = null,
@@ -55,13 +56,20 @@ function App() {
   };
 
   useEffect(() => {
-    getData(languages, searchString, currentPage).then(() => {
+    getData(null, null, currentPage).then(() => {
       setIsLoadingFullPage(false);
     });
-  }, [languages, searchString, currentPage]);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      getData(languages, searchString, currentPage)
+    } else { isMounted.current = true }
+  }, [languages, searchString, currentPage])
 
 
   const onLanguageChange = (language: string, action: 'add' | 'delete') => {
+    setIssues(null)
     switch (action) {
       case 'add': {
         setLanguages((langs) => [...langs, language]);
@@ -74,6 +82,7 @@ function App() {
   };
 
   const onSearchInputChange = (searchString: string) => {
+    setIssues(null)
     setSearchString(searchString);
   };
 
