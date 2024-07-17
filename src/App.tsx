@@ -12,7 +12,8 @@ interface GetDataFunction {
   (
     languages: string[] | null,
     searchString: string | null,
-    page: number | null,
+    currentPage: number | null,
+    scroll?: boolean
   ): Promise<void>;
 }
 
@@ -30,6 +31,8 @@ function App() {
   const getData: GetDataFunction = async (
     languages = null,
     searchString = null,
+    currentPage,
+    scroll = false
   ) => {
     setIsLoading(true);
     const newData = await apiService.searchIssues(
@@ -37,17 +40,14 @@ function App() {
       searchString,
       currentPage,
     );
-    console.log({ newData })
     setIsLoading(false);
     if (newData.error) {
       setError(newData.error);
       setIsLoading(false);
     } else {
-      if (issues) {
-        setError("");
-        const newIssues = issues.concat(newData.items || []);
-        console.log({ newData })
-        setIssues(newIssues);
+      setError("");
+      if (scroll) {
+        setIssues((issues) => issues!.concat(newData.items || []));
       } else {
         setIssues(newData.items);
       }
@@ -65,11 +65,9 @@ function App() {
     if (isMounted.current) {
       getData(languages, searchString, currentPage)
     } else { isMounted.current = true }
-  }, [languages, searchString, currentPage])
-
+  }, [languages, searchString])
 
   const onLanguageChange = (language: string, action: 'add' | 'delete') => {
-    setIssues(null)
     switch (action) {
       case 'add': {
         setLanguages((langs) => [...langs, language]);
@@ -82,7 +80,6 @@ function App() {
   };
 
   const onSearchInputChange = (searchString: string) => {
-    setIssues(null)
     setSearchString(searchString);
   };
 
@@ -93,11 +90,12 @@ function App() {
   const loadNewData = () => {
     if (isLoading) return;
     setCurrentPage((prevPage) => prevPage + 1);
+    getData(languages, searchString, currentPage, true);
   };
 
   const retry = () => {
     if (isLoading) return;
-    getData(languages, searchString, currentPage);
+    getData(languages, searchString, currentPage, false);
   };
 
   return (
