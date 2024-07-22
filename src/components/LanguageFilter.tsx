@@ -1,71 +1,47 @@
-import React, { useState } from "react";
 import { strings } from "../strings";
-import SelectedLanguage from "./SelectedLanguage";
+import Select, { MultiValue } from "react-select";
 
 export interface LanguageFilterI {
-  onLanguageChange: (language: string, action: 'add' | 'delete') => void;
+  onLanguageChange: (languages: string[]) => void;
   currentLanguages: Set<string>
+}
+
+interface ProgrammingLanguage {
+  value: string,
+  label: string
 }
 
 export default function LanguageFilter(props: LanguageFilterI) {
   // TODO: Increase the list of languages
-  const languages = [
-    "Javascript",
-    "Java",
-    "Kotlin",
-    "C",
-    "C++",
-    "C#",
-    "PHP",
-    "Laravel",
-    "Codeigniter",
-    "React",
-    "Vue",
-    "Angular",
-    "Python",
-  ].sort();
-  const [searchQuery, setSearchQuery] = useState("")
-  const currentLanguagesArray = Array.from(props.currentLanguages)
+  const languagesOptions =
+    [
+      { value: 'angular', label: 'Angular' },
+      { value: 'c', label: 'C' },
+      { value: 'c#', label: 'C#' },
+      { value: 'c++', label: 'C++' },
+      { value: 'codeigniter', label: 'Codeigniter' },
+      { value: 'java', label: 'Java' },
+      { value: 'javascript', label: 'Javascript' },
+      { value: 'kotlin', label: 'Kotlin' },
+      { value: 'laravel', label: 'Laravel' },
+      { value: 'php', label: 'PHP' },
+      { value: 'python', label: 'Python' },
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' }
+    ]
 
-
-  const filteredLanguages = languages.filter((lang) => lang.toLowerCase().includes(searchQuery.toLowerCase()))
-
-  const handleLangSelect = (lang: string) => {
-    if (props.currentLanguages.has(lang)) return
-    setSearchQuery("")
-    props.onLanguageChange(lang, 'add');
+  const handleSearchChange = (languages: MultiValue<ProgrammingLanguage>) => {
+    const mappedValues = languages.map((lang) => lang.value)
+    console.log(mappedValues)
+    props.onLanguageChange(mappedValues)
   };
 
-  const handleLangDeletion = (lang: string) => {
-    if (!props.currentLanguages.has(lang)) return
-    props.onLanguageChange(lang, 'delete')
-  }
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
-  };
-
-  // TODO: STYLE NEEDED
   return (
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-row items-start justify-start">
+    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-col items-start justify-start">
 
-      {currentLanguagesArray.length > 0 && <div>
-        {currentLanguagesArray.map(lang => (
-          <SelectedLanguage key={lang} language={lang} onLanguageDeletion={() => handleLangDeletion(lang)} />
-        ))}
-      </div>}
-
-      <input type="text" name="language" id="language" value={searchQuery} onChange={handleSearchChange} placeholder={strings.searchLanguages} />
-
-      {searchQuery && (
-        <div className="">
-          {filteredLanguages.map(lang => (
-            <div key={lang} onClick={() => handleLangSelect(lang)}>
-              {lang}
-            </div>
-          ))}
-        </div>
-      )}
+      <Select options={languagesOptions} isMulti placeholder={strings.searchLanguages} className="w-full" onChange={(langs) => handleSearchChange(langs)} />
     </div>
   );
 }
+

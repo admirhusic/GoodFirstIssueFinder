@@ -21,7 +21,7 @@ function App() {
   const [issues, setIssues] = useState<GitHubIssue[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [languages, setLanguages] = useState<Set<string>>(new Set());
+  const [languages, setLanguages] = useState<string[] | null>(null);
   const [searchString, setSearchString] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -67,20 +67,8 @@ function App() {
     } else { isMounted.current = true }
   }, [languages, searchString])
 
-  const onLanguageChange = (language: string, action: 'add' | 'delete') => {
-    switch (action) {
-      case 'add': {
-        setLanguages((langs) => new Set(langs).add(language));
-        break
-      }
-      case 'delete': {
-        setLanguages((langs) => {
-          const newLangs = new Set(langs);
-          newLangs.delete(language)
-          return newLangs
-        })
-      }
-    }
+  const onLanguageChange = (languages: string[]) => {
+    setLanguages(languages)
   };
 
   const onSearchInputChange = (searchString: string) => {
