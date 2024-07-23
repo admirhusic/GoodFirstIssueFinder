@@ -81,3 +81,4 @@ export interface GitHubAPIResponse {
   incomplete_results: boolean;
   items: GitHubIssue[];
 }
+

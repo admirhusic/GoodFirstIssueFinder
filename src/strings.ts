@@ -6,7 +6,7 @@ export const strings = {
   paginationPrev: "Previous",
   paginationNext: "Next",
   noIssuesFound: "No issues found.",
-  filterIssuesPlaceholder: "filter issues",
+  filterIssuesPlaceholder: "Filter issues",
   error: "Error",
   accessDeniedError: "Access denied. Please check your permissions.",
   noResponseError: "No response from server. Please try again later.",
@@ -14,4 +14,5 @@ export const strings = {
   noAssignee: "No assignee yet",
   listItemError: "Error loading data",
   listItemReloadButtonLabel: "Reload",
+  searchLanguages: "Search languages"
 };

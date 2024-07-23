@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { strings } from "../strings";
 
 export interface SearchInputI {
-  onLanguageChange: (language: string) => void;
+  onLanguageChange: (languages: string[]) => void;
   onSearchStringChange: (searchString: string) => void;
 }
 
@@ -31,7 +31,7 @@ export default function SearchInput(props: SearchInputI) {
           onChange={handleInputChange}
         />
       </div>
-      <LanguageFilter onLanguageChange={debouncedOnSearchStringChange} />
+      <LanguageFilter onLanguageChange={props.onLanguageChange} />
     </div>
   );
 }
