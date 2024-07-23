@@ -14,7 +14,7 @@ const api = axios.create({
 
 const apiService = {
   searchIssues: async (
-    languages: Set<string> | null,
+    languages: string[] | null,
     searchString: string | null,
     page: number | null,
   ): Promise<{

@@ -3,7 +3,6 @@ import Select, { MultiValue } from "react-select";
 
 export interface LanguageFilterI {
   onLanguageChange: (languages: string[]) => void;
-  currentLanguages: Set<string>
 }
 
 interface ProgrammingLanguage {
@@ -32,7 +31,6 @@ export default function LanguageFilter(props: LanguageFilterI) {
 
   const handleSearchChange = (languages: MultiValue<ProgrammingLanguage>) => {
     const mappedValues = languages.map((lang) => lang.value)
-    console.log(mappedValues)
     props.onLanguageChange(mappedValues)
   };
 

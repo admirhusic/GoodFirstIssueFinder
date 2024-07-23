@@ -6,7 +6,6 @@ import { strings } from "../strings";
 export interface SearchInputI {
   onLanguageChange: (languages: string[]) => void;
   onSearchStringChange: (searchString: string) => void;
-  currentLanguages: Set<string>
 }
 
 export default function SearchInput(props: SearchInputI) {
@@ -32,7 +31,7 @@ export default function SearchInput(props: SearchInputI) {
           onChange={handleInputChange}
         />
       </div>
-      <LanguageFilter onLanguageChange={props.onLanguageChange} currentLanguages={props.currentLanguages} />
+      <LanguageFilter onLanguageChange={props.onLanguageChange} />
     </div>
   );
 }

@@ -10,7 +10,7 @@ import RefreshButton from "./components/RefreshButton";
 
 interface GetDataFunction {
   (
-    languages: Set<string> | null,
+    languages: string[] | null,
     searchString: string | null,
     currentPage: number | null,
     scroll?: boolean
@@ -98,7 +98,6 @@ function App() {
           <SearchInput
             onLanguageChange={onLanguageChange}
             onSearchStringChange={onSearchInputChange}
-            currentLanguages={languages}
           />
           <div
             className={
