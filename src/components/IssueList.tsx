@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { GitHubIssue, GitHubUser } from "../types";
-import { IssueOpenedIcon, StarIcon } from "@primer/octicons-react";
 import { strings } from "../strings";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popover from "./Popover";
 import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
+import StarIcon from "../icons/StartIcon";
+import IssueOpenedIcon from "../icons/IssueOpenedIcon";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -118,12 +119,12 @@ export default function IssueList(props: IssueListI) {
                             "rounded bg-gray-100 text-sm px-1 flex flex-row justify-center align-middle items-center border"
                           }
                         >
-                          <StarIcon /> {issue.repository_stars}
+                          <StarIcon />
                         </span>
                       </div>
                       <div className={"flex flex-row items-center"}>
                         <span className={"mr-1"}>
-                          <IssueOpenedIcon fill={"green"} />
+                          <IssueOpenedIcon />
                         </span>
                         <a
                           target={"_blank"}
