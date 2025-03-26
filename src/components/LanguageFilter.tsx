@@ -1,50 +1,22 @@
-import React, { useState } from "react";
+import { programmingLanguages } from "../constants";
 import { strings } from "../strings";
+import Select, { MultiValue } from "react-select";
 
 export interface LanguageFilterI {
-  onLanguageChange: (language: string) => void;
+  onLanguageChange: (languages: string[]) => void;
 }
 
 export default function LanguageFilter(props: LanguageFilterI) {
-  const languages = [
-    "Javascript",
-    "Java",
-    "Kotlin",
-    "C",
-    "C++",
-    "C#",
-    "PHP",
-    "Laravel",
-    "Codeigniter",
-    "React",
-    "Vue",
-    "Angular",
-    "Python",
-  ].sort();
-  const [selectedLang, setSelectedLang] = useState("");
-
-  const handleLangSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLang(e.target.value);
-    props.onLanguageChange(e.target.value);
+  const handleSearchChange = (languages: MultiValue<typeof programmingLanguages[number]>) => {
+    const mappedValues = languages.map((lang) => lang.value)
+    props.onLanguageChange(mappedValues)
   };
 
+
   return (
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-row items-start justify-start">
-      <select
-        className="shadow appearance-none border border-blue-950 rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline py-2 px-3"
-        value={selectedLang}
-        onChange={handleLangSelect}
-      >
-        <option disabled value="">
-          {strings.languageSelection}
-        </option>
-        <option value="">{strings.allLanguages}</option>
-        {languages.map((lang, key) => (
-          <option value={lang} key={key}>
-            {lang}
-          </option>
-        ))}
-      </select>
+    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-col items-start justify-start">
+      <Select options={programmingLanguages} isMulti placeholder={strings.searchLanguages} className="w-full" onChange={(langs) => handleSearchChange(langs)} />
     </div>
   );
 }
+
