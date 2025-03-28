@@ -16,7 +16,6 @@ A simple web application to discover "good first issues" on GitHub, helping deve
 **Clone the repository:**
 
 ```bash
-Copy
 git clone https://github.com/admirhusic/GoodFirstIssueFinder.git  
 cd GoodFirstIssueFinder
 ```
