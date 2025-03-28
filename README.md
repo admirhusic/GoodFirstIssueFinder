@@ -22,13 +22,11 @@ cd GoodFirstIssueFinder
 ##  2. Install dependencies:
 
 ```bash
-Copy
 npm install
 ```
 ##  3. Configure environment variables:
 
 ```bash
-Copy
 
 # Create .env from the template  
 cp .env.example .env  
@@ -47,7 +45,6 @@ Replace ```INSERT GITHUB TOKEN HERE``` in ```.env``` with your token
 ##  4. Run the app:
 
 ```bash
-Copy
 npm start
 ``` 
 **Demo**
