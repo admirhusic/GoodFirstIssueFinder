@@ -6,10 +6,10 @@ A simple web application to discover "good first issues" on GitHub, helping deve
 
 **We welcome pull requests with enhancements:**
 
-✅ UI optimizations 
-✅ Search filter expansions 
-✅ Documentation improvements 
-✅ Bug fixes 
+UI optimizations 
+Search filter expansions 
+Documentation improvements 
+Bug fixes 
 
 ## 1. Installation
 
@@ -48,5 +48,6 @@ Replace ```INSERT GITHUB TOKEN HERE``` in ```.env``` with your token
 npm start
 ``` 
 **Demo**
+
 Check out the live demo of the GoodFirstIssueFinder app [here](https://good-first-issue-finder.vercel.app).
 
