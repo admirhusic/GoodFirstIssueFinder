@@ -6,10 +6,10 @@ A simple web application to discover "good first issues" on GitHub, helping deve
 
 **We welcome pull requests with enhancements:**
 
-UI optimizations 
-Search filter expansions 
-Documentation improvements 
-Bug fixes 
+*UI optimizations*
+*Search filter expansions*
+*Documentation improvements*
+*Bug fixes*
 
 ## 1. Installation
 
