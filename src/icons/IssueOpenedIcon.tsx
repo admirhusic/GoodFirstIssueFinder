@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function IssueOpenedIcon() {
+export default function IssueOpenedIcon({className}: {className?: string}) {
   return (
     <svg
       aria-hidden="true"
       focusable="false"
-      className="octicon octicon-issue-opened"
+      className={className}
       viewBox="0 0 16 16"
       width="16"
       height="16"
