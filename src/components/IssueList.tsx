@@ -53,7 +53,9 @@ export default function IssueList(props: IssueListI) {
   const onRetryButtonClick = () => {
     onRetry();
   };
-
+  function langDotClass(lang?: string | null) {
+    return "inline-block h-2 w-2 rounded-full bg-gray-400";
+  }
   return (
     <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
       {isLoadingFullPage ? (
@@ -76,105 +78,134 @@ export default function IssueList(props: IssueListI) {
         </div>
       ) : (
         <div className={"pb-6"}>
-          <ul>
-            {issues?.length &&
-              issues?.map((issue, key: number) => {
-                const profile = `${issue.html_url.split("/")[3]}`;
-                const repo = `${issue.html_url.split("/")[4]}`;
+           <ul className="mx-auto max-w-5xl">
+            {issues?.map((issue, idx) => {
+              const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
+              const profile = owner?.split("/")[0] || "";
+              const repoName = repo?.split("/")[0] || "";
 
-                return (
-                  <li key={key} className={""}>
-                    <div
-                      className={`w-full ${key === 0 ? "border-t rounded-t" : "border-t-0"} border-r border-b border-l py-2 px-3 hover:bg-gray-100`}
-                    >
-                      <div className={"flex flex-row"}>
-                        <Popover
-                          trigger={"hover"}
-                          content={UserProfilePopoverContent(issue)}
-                        >
-                          <a
-                            target={"_blank"}
-                            rel="noreferrer"
-                            href={`https://github.com/${profile}`}
-                          >
-                            <span className={"hover:bg-gray-200 rounded px-1"}>
+              return (
+                <li key={issue.html_url + idx} className="mb-3">
+                  <div
+                    className={[
+                      "group relative w-full rounded-lg border bg-white",
+                      "shadow-sm hover:shadow transition-shadow",
+                      "ring-0 hover:ring-1 hover:ring-gray-200",
+                    ].join(" ")}
+                  >
+                    {/* Top header row: owner/repo + star button */}
+                    <div className="flex items-start justify-between gap-4 px-4 pt-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center text-sm">
+                          <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
+                            <a
+                              className="truncate font-medium hover:underline"
+                              target="_blank"
+                              rel="noreferrer"
+                              href={`https://github.com/${profile}`}
+                            >
                               {profile}
-                            </span>
+                            </a>
+                          </Popover>
+
+                          <span className="mx-1 text-gray-400">/</span>
+
+                          <a
+                            className="truncate font-medium hover:underline"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={`https://github.com/${profile}/${repoName}`}
+                          >
+                            {repoName}
                           </a>
-                        </Popover>
-
-                        <span className={"mx-1"}>{"/"}</span>
-                        <a
-                          target={"_blank"}
-                          rel="noreferrer"
-                          href={`https://github.com/${profile}/${repo}`}
-                        >
-                          <span className={"hover:bg-gray-200 rounded px-1"}>
-                            {repo}
-                          </span>
-                        </a>
-
-                        <span
-                          className={
-                            "rounded bg-gray-100 text-sm px-1 flex flex-row justify-center align-middle items-center border"
-                          }
-                        >
-                          <StarIcon />
-                        </span>
+                        </div>
                       </div>
-                      <div className={"flex flex-row items-center"}>
-                        <span className={"mr-1"}>
-                          <IssueOpenedIcon />
-                        </span>
-                        <a
-                          target={"_blank"}
-                          rel="noreferrer"
-                          href={issue.html_url}
-                        >
-                          <span className={"font-bold hover:text-blue-500"}>
-                            {issue.title}
-                          </span>
-                        </a>
-                      </div>
-                      {!issue.assignees.length ? (
-                        <div key={key} className={"flex flex-row items-center"}>
-                          <span className={"text-xs text-green-500"}>
-                            {strings.noAssignee}
+
+                      {/* Star action (right) */}
+                      <button
+                        type="button"
+                        aria-label="Star repository"
+                        className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium
+                                  hover:bg-gray-50 active:bg-gray-100"
+                      >
+                        <StarIcon />
+                        <span>Star</span>
+                        {typeof issue.repository_stars === "number" && (
+                          <span className="tabular-nums text-gray-600">{issue.repository_stars}</span>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* Issue title row */}
+                    <div className="mt-1 flex items-center gap-2 px-4">
+                      <IssueOpenedIcon className="shrink-0 text-green-600" />
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={issue.html_url}
+                        className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
+                        title={issue.title}
+                      >
+                        {issue.title}
+                      </a>
+                    </div>
+
+                    {/* Optional description */}
+                    {issue.body && (
+                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
+                        {issue.body}
+                      </p>
+                    )}
+
+                    {/* Meta row: assignees, language, updated */}
+                    <div className="mt-3 flex flex-wrap items-center gap-3 px-4 pb-3">
+                      {/* Assignees */}
+                      {issue.assignees?.length ? (
+                        <div className="flex items-center">
+                          {issue.assignees.map((a, i) => (
+                            <img
+                              key={i}
+                              src={a.avatar_url}
+                              alt=""
+                              className={[
+                                "h-5 w-5 rounded-full ring-2 ring-white",
+                                i ? "-ml-2" : "",
+                              ].join(" ")}
+                            />
+                          ))}
+                          <span className="ml-2 text-xs text-gray-600">
+                            {issue.assignees.length} assignee{issue.assignees.length > 1 ? "s" : ""}
                           </span>
                         </div>
                       ) : (
-                        <div>
-                          {issue.assignees.map(
-                            (assign: GitHubUser, key: number) => (
-                              <img
-                                key={key}
-                                className={
-                                  "rounded-xl w-[25px] h-[25px] mr-1 inline"
-                                }
-                                src={assign.avatar_url}
-                                alt=""
-                              />
-                            ),
-                          )}
-                        </div>
+                        <span className="text-xs font-medium text-green-600">No assignee</span>
                       )}
-                      {issue.repository_language !== null ? (
+
+                      {/* Separator dot */}
+                      <span className="hidden sm:inline text-gray-300">•</span>
+
+                      {/* Language */}
+                      {issue.repository_language && (
+                        <span className="flex items-center gap-2 text-xs text-gray-700">
+                          <span className={langDotClass(issue.repository_language)} />
+                          {issue.repository_language}
+                        </span>
+                      )}
+
+                      {/* Updated */}
+                      {issue.updated_at && (
                         <>
-                          <div className={"mt-1"}>
-                            <span
-                              className={
-                                "bg-blue-950 rounded text-white text-xs font-light px-3 py-1"
-                              }
-                            >
-                              {issue.repository_language}
-                            </span>
-                          </div>
+                          <span className="hidden sm:inline text-gray-300">•</span>
+                          <span className="text-xs text-gray-600">
+                            Updated on {new Date(issue.updated_at).toLocaleDateString()}
+                          </span>
                         </>
-                      ) : null}
+                      )}
                     </div>
-                  </li>
-                );
-              })}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
           {error && currentPage > 1 ? (
             <div
