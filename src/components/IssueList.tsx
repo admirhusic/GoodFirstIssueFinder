@@ -7,6 +7,7 @@ import Popover from "./Popover";
 import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
 import StarIcon from "../icons/StartIcon";
 import IssueOpenedIcon from "../icons/IssueOpenedIcon";
+import IssuePopoverContent from "./popover/IssuePopoverContent";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -80,6 +81,7 @@ export default function IssueList(props: IssueListI) {
         <div className={"pb-6"}>
            <ul className="mx-auto max-w-5xl">
             {issues?.map((issue, idx) => {
+              console.log("Rendering issue:", issue);
               const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
               const profile = owner?.split("/")[0] || "";
               const repoName = repo?.split("/")[0] || "";
@@ -97,19 +99,12 @@ export default function IssueList(props: IssueListI) {
                     <div className="flex items-start justify-between gap-4 px-4 pt-3">
                       <div className="min-w-0">
                         <div className="flex items-center text-sm">
-                          <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
-                            <a
-                              className="truncate font-medium hover:underline"
-                              target="_blank"
-                              rel="noreferrer"
-                              href={`https://github.com/${profile}`}
-                            >
-                              {profile}
-                            </a>
+                          <Popover trigger="hover" content={<UserProfilePopoverContent issue={issue} users={issue.user} />}>
+                            <span className="text-blue-600 hover:underline cursor-pointer">
+                              {issue.user.login}
+                            </span>
                           </Popover>
-
                           <span className="mx-1 text-gray-400">/</span>
-
                           <a
                             className="truncate font-medium hover:underline"
                             target="_blank"
@@ -139,17 +134,19 @@ export default function IssueList(props: IssueListI) {
                     {/* Issue title row */}
                     <div className="mt-1 flex items-center gap-2 px-4">
                       <IssueOpenedIcon className="shrink-0 text-green-600" />
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={issue.html_url}
-                        className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
-                        title={issue.title}
-                      >
-                        {issue.title}
-                      </a>
+                      <Popover trigger="hover" content={<IssuePopoverContent issue={issue} />}>
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={issue.html_url}
+                          className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
+                          title={issue.title}
+                        >
+                          {issue.title}
+                        </a>
+                      </Popover>
                     </div>
-
+                    
                     {/* Optional description */}
                     {issue.body && (
                       <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
