@@ -4,7 +4,7 @@ import { strings } from "../strings";
 
 export default function Navbar() {
   return (
-    <nav className={"bg-blue-950 text-white p-3 flex flex-row fixed w-full"}>
+    <nav className={"bg-blue-950 text-white p-3 flex flex-row fixed w-full z-50"}>
       <div
         className={
           "container mx-auto flex flex-row items-center justify-between"
