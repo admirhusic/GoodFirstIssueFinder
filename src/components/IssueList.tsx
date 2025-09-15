@@ -130,6 +130,8 @@ export default function IssueList(props: IssueListI) {
 
                       {/* Star action (right) */}
 
+                      <div>
+
                       <button
                       type="button"
                       onClick={() =>
@@ -150,8 +152,8 @@ export default function IssueList(props: IssueListI) {
                         type="button"
                         aria-label="Star repository"
                         className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium
-                                  hover:bg-gray-50 active:bg-gray-100"
-                      >
+                        hover:bg-gray-50 active:bg-gray-100"
+                        >
                         <StarIcon />
                         <span>Star</span>
                         {typeof issue.repository_stars === "number" && (
@@ -159,6 +161,7 @@ export default function IssueList(props: IssueListI) {
                         )}
                       </button>
                     </div>
+                        </div>
 
                     {/* Issue title row */}
                     <div className="mt-1 flex items-center gap-2 px-4">
