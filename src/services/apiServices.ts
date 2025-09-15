@@ -24,9 +24,11 @@ const apiService = {
     items: GitHubIssue[] | null;
   }> => {
     const labelQueryParam = 'label:"good first issue" ';
-    let languageQueryParam = ''
-    languages?.forEach(language => languageQueryParam += `language:${language.toLowerCase()} `)
-    const stateQueryParam = "state:open ";
+    let languageQueryParam = "";
+    if (languages && languages.length > 0) {
+      languageQueryParam = languages.map(lang => `language:${lang}`).join(" OR ") + " ";
+    }
+    const stateQueryParam = "is:issue state:open ";
     const searchQueryParam = searchString ? `${searchString} ` : "";
 
     try {
