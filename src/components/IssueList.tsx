@@ -81,7 +81,6 @@ export default function IssueList(props: IssueListI) {
         <div className={"pb-6"}>
            <ul className="mx-auto max-w-5xl">
             {issues?.map((issue, idx) => {
-              console.log("Rendering issue:", issue);
               const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
               const profile = owner?.split("/")[0] || "";
               const repoName = repo?.split("/")[0] || "";
