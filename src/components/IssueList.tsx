@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popover from "./Popover";
 import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
 import StarIcon from "../icons/StartIcon";
+import HeartIcon from "../icons/HeartIcon";
 import IssueOpenedIcon from "../icons/IssueOpenedIcon";
+import { useFavorites } from "../hooks/useFavorites";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -19,7 +21,12 @@ interface IssueListI {
   onRetry: () => void;
 }
 
+
 export default function IssueList(props: IssueListI) {
+
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+
+
   const {
     issues,
     isLoading,
@@ -122,6 +129,23 @@ export default function IssueList(props: IssueListI) {
                       </div>
 
                       {/* Star action (right) */}
+
+                      <button
+                      type="button"
+                      onClick={() =>
+                        isFavorite(issue) ? removeFavorite(issue) : addFavorite(issue)
+                      }
+                      aria-label="Toggle Favorite"
+                      className={`inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium ${
+                        isFavorite(issue)
+                          ? "text-red-500 hover:bg-red-50 active:bg-red-100"
+                          : "text-gray-600 hover:bg-gray-50 active:bg-gray-100"
+                      }`}
+                    >
+                      <HeartIcon />
+                      <span>{isFavorite(issue) ? "Unfavorite" : "Favorite"}</span>
+                    </button>
+
                       <button
                         type="button"
                         aria-label="Star repository"
