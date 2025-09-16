@@ -20,7 +20,7 @@ export default function Navbar() {
           <ul className="flex flex-row gap-4">
             {/* <li></li> This can be used for further routing */} 
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/favourites">Favourites</Link></li>
+            <li><Link to="/favorites">Favorites</Link></li>
           </ul>
 
          

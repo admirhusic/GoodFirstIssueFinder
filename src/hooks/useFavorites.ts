@@ -8,7 +8,7 @@ export function useFavorites() {
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("favouriteIssues");
+      const stored = localStorage.getItem("favoriteIssues");
       if (stored) {
         setFavorites(JSON.parse(stored));
       }
@@ -22,7 +22,7 @@ export function useFavorites() {
   // Sync to localStorage only AFTER initial load
   useEffect(() => {
     if (isInitialized) {
-      localStorage.setItem("favouriteIssues", JSON.stringify(favorites));
+      localStorage.setItem("favoriteIssues", JSON.stringify(favorites));
     }
   }, [favorites, isInitialized]);
 

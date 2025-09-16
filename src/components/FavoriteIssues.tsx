@@ -6,8 +6,9 @@ import Popover from "./Popover";
 import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
 import { useFavorites } from "../hooks/useFavorites";
 import Navbar from "./Navbar";
+import { strings } from "../strings";
 
-const FavouriteIssues = () => {
+const FavoriteIssues = () => {
   const { favorites, removeFavorite } = useFavorites();
 
   const issues = favorites;
@@ -39,7 +40,7 @@ const FavouriteIssues = () => {
           icon={faHeartSolid}
           className="text-gray-300 text-4xl mb-4"
           />
-        <p className="text-gray-500">No favourite issues yet. Save some to see them here!</p>
+        <p className="text-gray-500">{strings.noFavoriteIssues}</p>
       </div>
           </div>
     );
@@ -54,7 +55,7 @@ const FavouriteIssues = () => {
     <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
       <div className="pb-6">
         <h1 className="text-xl font-semibold mb-4 text-gray-900">
-          Favourite Issues ({issues.length})
+          {strings.favoriteIssues} ({issues.length})
         </h1>
         <ul className="mx-auto max-w-5xl">
           {issues.map((issue, idx) => {
@@ -145,7 +146,7 @@ const FavouriteIssues = () => {
                         </span>
                       </div>
                     ) : (
-                      <span className="text-xs font-medium text-green-600">No assignee</span>
+                      <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
                     )}
 
                     {/* Separator */}
@@ -164,7 +165,7 @@ const FavouriteIssues = () => {
                       <>
                         <span className="hidden sm:inline text-gray-300">•</span>
                         <span className="text-xs text-gray-600">
-                          Updated on {new Date(issue.updated_at).toLocaleDateString()}
+                          {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
                         </span>
                       </>
                     )}
@@ -180,4 +181,4 @@ const FavouriteIssues = () => {
   );
 };
 
-export default FavouriteIssues;
+export default FavoriteIssues;

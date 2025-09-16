@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import FavouriteIssues from './components/FavouriteIssues';
+import FavoriteIssues from './components/FavoriteIssues';
 
 const router = createBrowserRouter([
   {
@@ -12,8 +12,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/favourites",
-    element: <FavouriteIssues />,
+    path: "/favorites",
+    element: <FavoriteIssues />,
   },
 ]);
 

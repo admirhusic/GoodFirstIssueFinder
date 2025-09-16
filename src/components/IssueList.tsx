@@ -205,7 +205,7 @@ export default function IssueList(props: IssueListI) {
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-green-600">No assignee</span>
+                        <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
                       )}
 
                       {/* Separator dot */}

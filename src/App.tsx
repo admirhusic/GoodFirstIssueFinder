@@ -7,7 +7,6 @@ import IssueList from "./components/IssueList";
 import SearchInput from "./components/SearchInput";
 import { strings } from "./strings";
 import RefreshButton from "./components/RefreshButton";
-import FavouriteIssues from "./components/FavouriteIssues";
 
 interface GetDataFunction {
   (
