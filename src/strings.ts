@@ -1,6 +1,8 @@
 export const strings = {
   documentTitle: "Good First Issue Finder",
   noFavoriteIssues: "No favorite issues yet. Save some to see them here!",
+  btnUnfavorite:"Unfavorite",
+  navFavorites:"Favorites",
   favoriteIssues: "Favorite Issues",
   updatedOn:"Updated on",
   NoAssignee:"No Assignee",

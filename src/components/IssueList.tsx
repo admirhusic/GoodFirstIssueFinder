@@ -224,7 +224,7 @@ export default function IssueList(props: IssueListI) {
                         <>
                           <span className="hidden sm:inline text-gray-300">•</span>
                           <span className="text-xs text-gray-600">
-                            Updated on {new Date(issue.updated_at).toLocaleDateString()}
+                            {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
                           </span>
                         </>
                       )}

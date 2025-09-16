@@ -98,7 +98,7 @@ const FavoriteIssues = () => {
                       className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium text-red-500 hover:bg-red-50 active:bg-red-100"
                     >
                       <HeartIcon />
-                      <span>Unfavorite</span>
+                      <span>{strings.btnUnfavorite}</span>
                     </button>
                   </div>
 
