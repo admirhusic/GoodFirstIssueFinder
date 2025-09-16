@@ -48,11 +48,10 @@ const FavoriteIssues = () => {
 
   return (
     <div className="flex flex-col space-y-5">
-      <div className="mb-8">
         <Navbar />
-      </div>
+
     
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
+    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded pt-8">
       <div className="pb-6">
         <h1 className="text-xl font-semibold mb-4 text-gray-900">
           {strings.favoriteIssues} ({issues.length})
