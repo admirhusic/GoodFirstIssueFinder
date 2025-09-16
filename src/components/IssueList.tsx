@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popover from "./Popover";
 import UserProfilePopoverContent from "./popover/UserProfilePopoverContent";
 import StarIcon from "../icons/StartIcon";
+import HeartIcon from "../icons/HeartIcon";
 import IssueOpenedIcon from "../icons/IssueOpenedIcon";
+import { useFavorites } from "../hooks/useFavorites";
 
 interface IssueListI {
   issues: GitHubIssue[] | null;
@@ -19,7 +21,12 @@ interface IssueListI {
   onRetry: () => void;
 }
 
+
 export default function IssueList(props: IssueListI) {
+
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+
+
   const {
     issues,
     isLoading,
@@ -122,12 +129,31 @@ export default function IssueList(props: IssueListI) {
                       </div>
 
                       {/* Star action (right) */}
+
+                      <div>
+
+                      <button
+                      type="button"
+                      onClick={() =>
+                        isFavorite(issue) ? removeFavorite(issue) : addFavorite(issue)
+                      }
+                      aria-label="Toggle Favorite"
+                      className={`inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium ${
+                        isFavorite(issue)
+                          ? "text-red-500 hover:bg-red-50 active:bg-red-100"
+                          : "text-gray-600 hover:bg-gray-50 active:bg-gray-100"
+                      }`}
+                    >
+                      <HeartIcon />
+                      <span>{isFavorite(issue) ? "Unfavorite" : "Favorite"}</span>
+                    </button>
+
                       <button
                         type="button"
                         aria-label="Star repository"
                         className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium
-                                  hover:bg-gray-50 active:bg-gray-100"
-                      >
+                        hover:bg-gray-50 active:bg-gray-100"
+                        >
                         <StarIcon />
                         <span>Star</span>
                         {typeof issue.repository_stars === "number" && (
@@ -135,6 +161,7 @@ export default function IssueList(props: IssueListI) {
                         )}
                       </button>
                     </div>
+                        </div>
 
                     {/* Issue title row */}
                     <div className="mt-1 flex items-center gap-2 px-4">
@@ -178,7 +205,7 @@ export default function IssueList(props: IssueListI) {
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-green-600">No assignee</span>
+                        <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
                       )}
 
                       {/* Separator dot */}
@@ -197,7 +224,7 @@ export default function IssueList(props: IssueListI) {
                         <>
                           <span className="hidden sm:inline text-gray-300">•</span>
                           <span className="text-xs text-gray-600">
-                            Updated on {new Date(issue.updated_at).toLocaleDateString()}
+                            {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
                           </span>
                         </>
                       )}
