@@ -1,5 +1,5 @@
 export const strings = {
-  documentTitle: "Good First Issue Finder",
+  documentTitle: "First Good Issue Finder",
   languageSelection: "Select a language",
   allLanguages: "All languages",
   logoText: "FGFI",
