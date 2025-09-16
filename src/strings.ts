@@ -6,6 +6,7 @@ export const strings = {
   favoriteIssues: "Favorite Issues",
   updatedOn:"Updated on",
   NoAssignee:"No Assignee",
+  assignee:"assignee",
   languageSelection: "Select a language",
   allLanguages: "All languages",
   logoText: "FGFI",
