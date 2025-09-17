@@ -138,10 +138,10 @@ export default function IssueList(props: IssueListI) {
                         isFavorite(issue) ? removeFavorite(issue) : addFavorite(issue)
                       }
                       aria-label="Toggle Favorite"
-                      className={`inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium ${
+                      className={`mr-1 inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium ${
                         isFavorite(issue)
                           ? "text-red-500 hover:bg-red-50 active:bg-red-100"
-                          : "text-gray-600 hover:bg-gray-50 active:bg-gray-100"
+                          : " hover:bg-gray-50 active:bg-gray-100"
                       }`}
                     >
                       <HeartIcon />
