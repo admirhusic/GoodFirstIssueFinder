@@ -101,7 +101,7 @@ function App() {
           />
           <div
             className={
-              "flex flex-row sm:w-full md:w-1/2 lg:w-1/2 mx-auto justify-end align-middle items-end mb-2"
+              "flex w-[95%] sm:w-full md:w-1/2 lg:w-1/2 mx-auto justify-end items-center mb-2"
             }
           >
             <RefreshButton

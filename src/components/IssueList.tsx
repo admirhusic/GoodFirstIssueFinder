@@ -64,7 +64,7 @@ export default function IssueList(props: IssueListI) {
     return "inline-block h-2 w-2 rounded-full bg-gray-400";
   }
   return (
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded">
+    <div className="sm:w-full w-[95%] md:w-1/2 lg:w-1/2 mx-auto rounded">
       {isLoadingFullPage ? (
         <div className="flex flex-col justify-center items-center">
           <div role="status">
