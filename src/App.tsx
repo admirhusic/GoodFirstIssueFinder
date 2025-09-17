@@ -28,6 +28,10 @@ function App() {
   const [isLoadingFullPage, setIsLoadingFullPage] = useState(true);
   const isMounted = useRef(false)
 
+  useEffect(() => {
+    document.title = strings.documentTitle;
+  }, []);
+
   const getData: GetDataFunction = async (
     languages = null,
     searchString = null,
