@@ -1,5 +1,12 @@
 export const strings = {
   documentTitle: "First Good Issue Finder",
+  noFavoriteIssues: "No favorite issues yet. Save some to see them here!",
+  btnUnfavorite:"Unfavorite",
+  navFavorites:"Favorites",
+  favoriteIssues: "Favorite Issues",
+  updatedOn:"Updated on",
+  NoAssignee:"No Assignee",
+  assignee:"assignee",
   languageSelection: "Select a language",
   allLanguages: "All languages",
   logoText: "FGFI",

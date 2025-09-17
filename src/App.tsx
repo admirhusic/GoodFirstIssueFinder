@@ -113,6 +113,7 @@ function App() {
               onClick={onRefreshButtonClick}
             />
           </div>
+
           <IssueList
             isLoadingFullPage={isLoadingFullPage}
             isLoading={isLoading}
