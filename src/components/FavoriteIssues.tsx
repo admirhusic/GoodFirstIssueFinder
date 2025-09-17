@@ -51,7 +51,7 @@ const FavoriteIssues = () => {
         <Navbar />
 
     
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto rounded pt-8">
+    <div className="sm:w-full w-[95vw] md:w-1/2 lg:w-1/2 mx-auto rounded pt-8">
       <div className="pb-6">
         <h1 className="text-xl font-semibold mb-4 text-gray-900">
           {strings.favoriteIssues} ({issues.length})
