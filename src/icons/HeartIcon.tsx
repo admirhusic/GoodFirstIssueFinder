@@ -6,10 +6,14 @@ export default function HeartIcon() {
       aria-hidden="true" 
       focusable="false" 
       className="octicon octicon-heart" 
-      viewBox="0 0 16 16" 
+      viewBox="0 0 24 24" 
       width="16" 
       height="16" 
-      fill="currentColor" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2.5" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
       style={{
         display: "inline-block",
         userSelect: "none",
@@ -17,7 +21,7 @@ export default function HeartIcon() {
         overflow: "visible"
       }}
     >
-      <path d="m8 6.586-1.789-1.895c-.886-.938-2.312-.938-3.197 0C2.128 5.485 2 5.998 2 6.516c0 .518.128 1.031.324 1.258l5.242 5.568c.241.256.63.256.871 0l5.242-5.568c.196-.227.324-.74.324-1.258 0-.518-.128-1.031-.324-1.258-.885-.938-2.311-.938-3.197 0L8 6.586Z" />
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   );
 }
