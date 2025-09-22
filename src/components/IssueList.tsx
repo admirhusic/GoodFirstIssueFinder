@@ -111,7 +111,7 @@ export default function IssueList(props: IssueListI) {
                               rel="noreferrer"
                               href={`https://github.com/${profile}`}
                             >
-                              {profile}
+                              {profile.slice(0, 14)}
                             </a>
                           </Popover>
 
