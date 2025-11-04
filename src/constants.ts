@@ -1,4 +1,5 @@
 export const programmingLanguages = [
+  { label: '.NET', value: 'dotnet' },
   { label: 'Bicep', value: 'bicep' },
   { label: 'C', value: 'c' },
   { label: 'C#', value: 'c#' },
@@ -28,6 +29,7 @@ export const programmingLanguages = [
   { label: 'MATLAB', value: 'matlab' },
   { label: 'MLIR', value: 'mlir' },
   { label: 'Nix', value: 'nix' },
+  { label: 'Nim', value: 'nim' },
   { label: 'OCaml', value: 'ocaml' },
   { label: 'Objective-C', value: 'objective-c' },
   { label: 'PHP', value: 'php' },
