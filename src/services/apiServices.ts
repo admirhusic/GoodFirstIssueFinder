@@ -28,11 +28,22 @@ const apiService = {
     languages?.forEach(language => languageQueryParam += `language:${language.toLowerCase()} `)
     const stateQueryParam = "state:open ";
     const searchQueryParam = searchString ? `${searchString} ` : "";
+    const rawQ = `
+    is:issue
+    ${searchQueryParam}
+    ${labelQueryParam}
+    ${languageQueryParam}
+    ${stateQueryParam}
+`;
 
+    // Clean up the string:
+    // 1. Replace all sequences of whitespace (including newlines and tabs) with a single space.
+    // 2. Trim off any leading or trailing spaces.
+    const q = rawQ.replace(/\s+/g, " ").trim();
     try {
       const response = await api.get("/issues", {
         params: {
-          q: `${searchQueryParam}${labelQueryParam}${languageQueryParam}${stateQueryParam}`,
+          q: q,
           sort: "created",
           order: "desc",
           page: page,
@@ -46,7 +57,7 @@ const apiService = {
           const data = await apiService.getRepoDetails(issue.repository_url);
           issue.repository_language = data.language;
           issue.repository_stars = data.stargazers_count;
-        }),
+        })
       );
       return response.data;
     } catch (error: any) {
