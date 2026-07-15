@@ -2,6 +2,7 @@ import React from "react";
 import { LogoGithubIcon, MarkGithubIcon } from "@primer/octicons-react";
 import { strings } from "../strings";
 import { Link } from "react-router-dom";
+import { ReactComponent as Logo } from "../logo.svg";
 
 export default function Navbar() {
   return (
@@ -11,8 +12,9 @@ export default function Navbar() {
           "container mx-auto flex flex-row items-center justify-between"
         }
       >
-        <div>
-          <span>{strings.logoText}</span> {/**  We are waiting for your logo design ;) */}
+        <div className="flex flex-row items-center gap-2">
+          <Logo className="w-8 h-8" />
+          <span className="font-bold text-lg">{strings.logoText}</span>
         </div>
         <div>
           
