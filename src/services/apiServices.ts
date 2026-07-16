@@ -27,12 +27,13 @@ const apiService = {
     let languageQueryParam = ''
     languages?.forEach(language => languageQueryParam += `language:${language.toLowerCase()} `)
     const stateQueryParam = "state:open ";
+    const typeQueryParam = "is:issue ";
     const searchQueryParam = searchString ? `${searchString} ` : "";
 
     try {
       const response = await api.get("/issues", {
         params: {
-          q: `${searchQueryParam}${labelQueryParam}${languageQueryParam}${stateQueryParam}`,
+          q: `${searchQueryParam}${labelQueryParam}${languageQueryParam}${stateQueryParam}${typeQueryParam}`,
           sort: "created",
           order: "desc",
           page: page,
