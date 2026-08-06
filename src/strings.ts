@@ -1,5 +1,5 @@
 export const strings = {
-  documentTitle: "First Good Issue Finder",
+  documentTitle: "GoodFirstIssueFinder",
   noFavoriteIssues: "No favorite issues yet. Save some to see them here!",
   btnUnfavorite:"Unfavorite",
   navFavorites:"Favorites",

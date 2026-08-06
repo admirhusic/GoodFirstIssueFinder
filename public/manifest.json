@@ -1,6 +1,6 @@
 {
-  "short_name": "First Good Issue Finder",
-  "name": "First Good Issue Finder",
+  "short_name": "GoodFirstIssueFinder",
+  "name": "GoodFirstIssueFinder",
   "icons": [
     {
       "src": "favicon.ico",
