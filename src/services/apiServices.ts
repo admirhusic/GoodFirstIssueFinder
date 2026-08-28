@@ -4,12 +4,18 @@ import { strings } from "../strings";
 
 const BASE_URL = "https://api.github.com/search";
 
+const token = import.meta.env.VITE_APP_GITHUB_TOKEN;
+const headers: Record<string, string> = {
+  Accept: "application/vnd.github.v3+json",
+};
+
+if (token && typeof token === "string" && token.trim().length > 0) {
+  headers.Authorization = `Bearer ${token.trim()}`;
+}
+
 const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    Authorization: `Bearer ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
-    Accept: "application/vnd.github.v3+json",
-  },
+  headers,
 });
 
 const apiService = {
