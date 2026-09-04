@@ -95,7 +95,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+    <div className="min-h-screen bg-[#f6f8fa] text-[#1f2328] flex flex-col">
       <Navbar />
       <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12 flex flex-col gap-4">
         <SearchInput
@@ -103,7 +103,7 @@ function App() {
           onSearchStringChange={onSearchInputChange}
         />
         <div className="flex w-full justify-between items-center px-0.5">
-          <span className="text-xs text-gray-500 font-medium">
+          <span className="text-xs text-[#57606a] font-medium">
             {issues && issues.length > 0
               ? `${totalPages ? totalPages.toLocaleString() : issues.length} issues found`
               : ""}

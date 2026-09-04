@@ -13,17 +13,14 @@ const FavoriteIssues = () => {
 
   const issues = favorites;
 
-  const langDotClass = (lang?: string | null) =>
-    "inline-block h-2 w-2 rounded-full bg-gray-400";
-
   if (!issues) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+      <div className="min-h-screen bg-[#f6f8fa] text-[#1f2328] flex flex-col">
         <Navbar />
         <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex flex-col justify-center items-center">
           <FontAwesomeIcon
             size="2x"
-            className="animate-spin text-blue-950"
+            className="animate-spin text-[#0969da]"
             icon={faCircleNotch}
           />
         </main>
@@ -33,15 +30,15 @@ const FavoriteIssues = () => {
 
   if (issues.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+      <div className="min-h-screen bg-[#f6f8fa] text-[#1f2328] flex flex-col">
         <Navbar />
         <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
-          <div className="text-center py-16 bg-white rounded-lg border border-gray-200 shadow-sm">
+          <div className="text-center py-16 bg-white rounded-md border border-[#d0d7de]">
             <FontAwesomeIcon
               icon={faHeartSolid}
-              className="text-gray-300 text-5xl mb-4"
+              className="text-[#d0d7de] text-5xl mb-4"
             />
-            <p className="text-gray-600 font-medium">{strings.noFavoriteIssues}</p>
+            <p className="text-[#57606a] font-medium">{strings.noFavoriteIssues}</p>
           </div>
         </main>
       </div>
@@ -49,34 +46,34 @@ const FavoriteIssues = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+    <div className="min-h-screen bg-[#f6f8fa] text-[#1f2328] flex flex-col">
       <Navbar />
       <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12">
         <div className="pb-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-900">
+            <h1 className="text-xl font-semibold text-[#1f2328]">
               {strings.favoriteIssues}
             </h1>
-            <span className="text-xs font-semibold px-2.5 py-1 bg-blue-100 text-blue-900 rounded-full">
+            <span className="text-xs font-semibold px-2.5 py-1 bg-[#ddf4ff] text-[#0550ae] rounded-full">
               {issues.length} {issues.length === 1 ? "issue" : "issues"}
             </span>
           </div>
           <ul className="w-full space-y-3">
             {issues.map((issue, idx) => {
-              const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
-              const profile = owner?.split("/")[0] || "";
-              const repoName = repo?.split("/")[0] || "";
+              const urlParts = issue.html_url.split("/");
+              const profile = urlParts[3] || "";
+              const repoName = urlParts[4] || "";
 
               return (
                 <li key={issue.html_url + idx}>
-                  <div className="group relative w-full rounded-lg border bg-white shadow-sm hover:shadow transition-shadow ring-0 hover:ring-1 hover:ring-gray-200">
+                  <div className="group relative w-full rounded-md border border-[#d0d7de] bg-white hover:bg-[#f6f8fa] transition-colors">
                     {/* Header: Repo owner/repo and unfavorite button */}
                     <div className="flex items-start justify-between gap-4 px-4 pt-3">
                       <div className="min-w-0">
                         <div className="flex items-center text-sm">
                           <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
                             <a
-                              className="truncate font-medium hover:underline"
+                              className="truncate font-medium text-[#1f2328] hover:text-[#0969da] hover:underline transition-colors"
                               target="_blank"
                               rel="noreferrer"
                               href={`https://github.com/${profile}`}
@@ -84,9 +81,9 @@ const FavoriteIssues = () => {
                               {profile}
                             </a>
                           </Popover>
-                          <span className="mx-1 text-gray-400">/</span>
+                          <span className="mx-1 text-[#57606a]">/</span>
                           <a
-                            className="truncate font-medium hover:underline"
+                            className="truncate font-medium text-[#1f2328] hover:text-[#0969da] hover:underline transition-colors"
                             target="_blank"
                             rel="noreferrer"
                             href={`https://github.com/${profile}/${repoName}`}
@@ -100,7 +97,7 @@ const FavoriteIssues = () => {
                         onClick={() => removeFavorite(issue)}
                         type="button"
                         aria-label="Remove from favorites"
-                        className="inline-flex items-center gap-2 rounded-md border border-red-200 px-2.5 py-1 text-xs font-medium text-red-500 hover:bg-red-50 active:bg-red-100 transition-colors"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-[#d0d7de] px-2.5 py-1 text-xs font-medium text-[#cf222e] bg-white hover:bg-[#ffebe9] transition-colors"
                       >
                         <HeartIcon />
                         <span>{strings.btnUnfavorite}</span>
@@ -109,12 +106,12 @@ const FavoriteIssues = () => {
 
                     {/* Title */}
                     <div className="mt-1 flex items-center gap-2 px-4">
-                      <IssueOpenedIcon className="shrink-0 text-green-600" />
+                      <IssueOpenedIcon className="shrink-0 text-[#1a7f37]" />
                       <a
                         target="_blank"
                         rel="noreferrer"
                         href={issue.html_url}
-                        className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
+                        className="truncate font-semibold leading-6 text-[#1f2328] hover:text-[#0969da] transition-colors"
                         title={issue.title}
                       >
                         {issue.title}
@@ -123,7 +120,7 @@ const FavoriteIssues = () => {
 
                     {/* Description */}
                     {issue.body && (
-                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
+                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-[#57606a]">
                         {issue.body}
                       </p>
                     )}
@@ -144,22 +141,21 @@ const FavoriteIssues = () => {
                               ].join(" ")}
                             />
                           ))}
-                          <span className="ml-2 text-xs text-gray-600">
+                          <span className="ml-2 text-xs text-[#57606a]">
                             {issue.assignees.length} assignee
                             {issue.assignees.length > 1 ? "s" : ""}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
+                        <span className="text-xs font-medium text-[#1a7f37]">{strings.NoAssignee}</span>
                       )}
 
-                      {/* Separator */}
-                      <span className="hidden sm:inline text-gray-300">•</span>
+                      <span className="hidden sm:inline text-[#d0d7de]">•</span>
 
                       {/* Language */}
                       {issue.repository_language && (
-                        <span className="flex items-center gap-2 text-xs text-gray-700">
-                          <span className={langDotClass(issue.repository_language)} />
+                        <span className="flex items-center gap-1.5 text-xs text-[#57606a]">
+                          <span className="inline-block h-2 w-2 rounded-full bg-[#57606a]" />
                           {issue.repository_language}
                         </span>
                       )}
@@ -167,8 +163,8 @@ const FavoriteIssues = () => {
                       {/* Updated Date */}
                       {issue.updated_at && (
                         <>
-                          <span className="hidden sm:inline text-gray-300">•</span>
-                          <span className="text-xs text-gray-600">
+                          <span className="hidden sm:inline text-[#d0d7de]">•</span>
+                          <span className="text-xs text-[#57606a]">
                             {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
                           </span>
                         </>

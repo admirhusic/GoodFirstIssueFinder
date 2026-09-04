@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function IssueOpenedIcon({className}: {className?: string}) {
+export default function IssueOpenedIcon({ className }: { className?: string }) {
   return (
     <svg
       aria-hidden="true"
@@ -9,12 +9,12 @@ export default function IssueOpenedIcon({className}: {className?: string}) {
       viewBox="0 0 16 16"
       width="16"
       height="16"
-      fill="green"
+      fill="currentColor"
       style={{
         display: "inline-block",
         userSelect: "none",
         verticalAlign: "text-bottom",
-        overflow: "visible"
+        overflow: "visible",
       }}
     >
       <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />

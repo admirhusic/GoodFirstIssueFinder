@@ -14,7 +14,7 @@ export default function RefreshButton(props: RefreshButtonI) {
       type="button"
       onClick={onClick}
       aria-label="Refresh issues"
-      className="inline-flex items-center gap-2 rounded-md bg-white border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer"
+      className="inline-flex items-center gap-2 rounded-md bg-white border border-[#d0d7de] px-3 py-1.5 text-xs font-medium text-[#24292f] hover:bg-[#f3f4f6] active:bg-[#eaeef2] transition-colors cursor-pointer"
     >
       <FontAwesomeIcon
         className={isAnimating ? "animate-spin" : ""}

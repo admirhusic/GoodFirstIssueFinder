@@ -24,7 +24,7 @@ export default function SearchInput(props: SearchInputI) {
     <div className="w-full flex flex-col gap-3">
       <div className="w-full">
         <input
-          className="shadow-sm border border-gray-300 rounded-lg text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent w-full py-2.5 px-3.5 bg-white transition-all placeholder:text-gray-400"
+          className="border border-[#d0d7de] rounded-md text-[#1f2328] leading-tight focus:outline-none focus:border-[#0969da] focus:shadow-[inset_0_0_0_3px_rgba(9,105,218,0.3)] w-full py-2 px-3 text-sm bg-white transition-all placeholder:text-[#6e7781]"
           id="filter-input"
           type="text"
           placeholder={strings.filterIssuesPlaceholder}

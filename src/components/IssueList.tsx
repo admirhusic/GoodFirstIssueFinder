@@ -21,11 +21,8 @@ interface IssueListI {
   onRetry: () => void;
 }
 
-
 export default function IssueList(props: IssueListI) {
-
   const { addFavorite, removeFavorite, isFavorite } = useFavorites();
-
 
   const {
     issues,
@@ -60,72 +57,64 @@ export default function IssueList(props: IssueListI) {
   const onRetryButtonClick = () => {
     onRetry();
   };
-  function langDotClass(lang?: string | null) {
-    return "inline-block h-2 w-2 rounded-full bg-gray-400";
-  }
+
   return (
     <div className="w-full">
       {isLoadingFullPage ? (
-        <div className="flex flex-col justify-center items-center py-16 text-gray-500">
+        <div className="flex flex-col justify-center items-center py-16 text-[#57606a]">
           <div role="status" className="flex flex-col items-center gap-3">
             <FontAwesomeIcon
               size={"2x"}
-              className={"animate-spin text-blue-950"}
+              className={"animate-spin text-[#0969da]"}
               icon={faCircleNotch}
             />
             <span className="text-sm">Loading good first issues...</span>
           </div>
         </div>
       ) : error && currentPage === 1 ? (
-        <div className="text-red-600 bg-red-50 border border-red-200 rounded-lg p-6 text-center my-4">
+        <div className="text-[#82071e] bg-[#ffebe9] border border-[#ffcecb] rounded-md p-6 text-center my-4">
           <p className="font-medium">{error}</p>
           <button
             onClick={onRetryButtonClick}
-            className="mt-3 inline-flex items-center gap-2 bg-blue-950 rounded-md py-1.5 px-4 text-white text-xs font-medium hover:bg-blue-900 transition-colors"
+            className="mt-3 inline-flex items-center gap-2 bg-white border border-[#d0d7de] rounded-md py-[5px] px-4 text-[#24292f] text-xs font-medium hover:bg-[#f3f4f6] transition-colors"
           >
             {strings.listItemReloadButtonLabel}
           </button>
         </div>
       ) : issues?.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg border border-gray-200 text-gray-500">
+        <div className="text-center py-12 bg-white rounded-md border border-[#d0d7de] text-[#57606a]">
           <p>{strings.noIssuesFound}</p>
         </div>
       ) : (
         <div className="pb-6">
           <ul className="w-full space-y-3">
             {issues?.map((issue, idx) => {
-              const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
-              const profile = owner?.split("/")[0] || "";
-              const repoName = repo?.split("/")[0] || "";
+              const urlParts = issue.html_url.split("/");
+              const profile = urlParts[3] || "";
+              const repoName = urlParts[4] || "";
 
               return (
                 <li key={issue.html_url + idx} className="mb-3">
-                  <div
-                    className={[
-                      "group relative w-full rounded-lg border bg-white",
-                      "shadow-sm hover:shadow transition-shadow",
-                      "ring-0 hover:ring-1 hover:ring-gray-200",
-                    ].join(" ")}
-                  >
-                    {/* Top header row: owner/repo + star button */}
+                  <div className="group relative w-full rounded-md border border-[#d0d7de] bg-white hover:bg-[#f6f8fa] transition-colors">
+                    {/* Top header row: owner/repo + action buttons */}
                     <div className="flex items-start justify-between gap-4 px-4 pt-3">
                       <div className="min-w-0">
                         <div className="flex items-center text-sm">
                           <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
                             <a
-                              className="truncate font-medium hover:underline"
+                              className="truncate font-medium text-[#1f2328] hover:text-[#0969da] hover:underline transition-colors"
                               target="_blank"
                               rel="noreferrer"
                               href={`https://github.com/${profile}`}
                             >
-                              {profile.length > 15 ? profile.slice(0, 17)+"..." : profile}
+                              {profile.length > 15 ? profile.slice(0, 17) + "..." : profile}
                             </a>
                           </Popover>
 
-                          <span className="mx-1 text-gray-400">/</span>
+                          <span className="mx-1 text-[#57606a]">/</span>
 
                           <a
-                            className="truncate font-medium hover:underline"
+                            className="truncate font-medium text-[#1f2328] hover:text-[#0969da] hover:underline transition-colors"
                             target="_blank"
                             rel="noreferrer"
                             href={`https://github.com/${profile}/${repoName}`}
@@ -135,49 +124,34 @@ export default function IssueList(props: IssueListI) {
                         </div>
                       </div>
 
-                      {/* Star action (right) */}
-
-                      <div>
-
-                      <button
-                      type="button"
-                      onClick={() =>
-                        isFavorite(issue) ? removeFavorite(issue) : addFavorite(issue)
-                      }
-                      aria-label="Toggle Favorite"
-                      className={`mr-1 inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium ${
-                        isFavorite(issue)
-                          ? "text-red-500 hover:bg-red-50 active:bg-red-100"
-                          : " hover:bg-gray-50 active:bg-gray-100"
-                      }`}
-                    >
-                      <HeartIcon />
-                      <span>{isFavorite(issue) ? "Unfavorite" : "Favorite"}</span>
-                    </button>
-
-                      <button
-                        type="button"
-                        aria-label="Star repository"
-                        className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium
-                        hover:bg-gray-50 active:bg-gray-100"
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            isFavorite(issue) ? removeFavorite(issue) : addFavorite(issue)
+                          }
+                          aria-label="Toggle Favorite"
+                          className={`inline-flex items-center gap-1.5 rounded-md border border-[#d0d7de] px-2 py-1 text-xs font-medium bg-white transition-colors ${
+                            isFavorite(issue)
+                              ? "text-[#cf222e] hover:bg-[#ffebe9]"
+                              : "text-[#24292f] hover:bg-[#f6f8fa]"
+                          }`}
                         >
-                        <StarIcon />
-                        <span>Star</span>
-                        {typeof issue.repository_stars === "number" && (
-                          <span className="tabular-nums text-gray-600">{issue.repository_stars}</span>
-                        )}
-                      </button>
+                          <HeartIcon />
+                          <span>{isFavorite(issue) ? "Unfavorite" : "Favorite"}</span>
+                        </button>
+                      </div>
                     </div>
-                        </div>
 
                     {/* Issue title row */}
                     <div className="mt-1 flex items-center gap-2 px-4">
-                      <IssueOpenedIcon className="shrink-0 text-green-600" />
+                      <IssueOpenedIcon className="shrink-0 text-[#1a7f37]" />
                       <a
                         target="_blank"
                         rel="noreferrer"
                         href={issue.html_url}
-                        className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
+                        className="truncate font-semibold leading-6 text-[#1f2328] hover:text-[#0969da] transition-colors"
                         title={issue.title}
                       >
                         {issue.title}
@@ -186,7 +160,7 @@ export default function IssueList(props: IssueListI) {
 
                     {/* Optional description */}
                     {issue.body && (
-                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
+                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-[#57606a]">
                         {issue.body}
                       </p>
                     )}
@@ -207,30 +181,45 @@ export default function IssueList(props: IssueListI) {
                               ].join(" ")}
                             />
                           ))}
-                          <span className="ml-2 text-xs text-gray-600">
+                          <span className="ml-2 text-xs text-[#57606a]">
                             {issue.assignees.length} assignee{issue.assignees.length > 1 ? "s" : ""}
                           </span>
                         </div>
                       ) : (
-                        <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
+                        <span className="text-xs font-medium text-[#1a7f37]">{strings.NoAssignee}</span>
                       )}
 
-                      {/* Separator dot */}
-                      <span className="hidden sm:inline text-gray-300">•</span>
+                      <span className="hidden sm:inline text-[#d0d7de]">•</span>
 
                       {/* Language */}
                       {issue.repository_language && (
-                        <span className="flex items-center gap-2 text-xs text-gray-700">
-                          <span className={langDotClass(issue.repository_language)} />
+                        <span className="flex items-center gap-1.5 text-xs text-[#57606a]">
+                          <span className="inline-block h-2 w-2 rounded-full bg-[#57606a]" />
                           {issue.repository_language}
                         </span>
+                      )}
+
+                      {/* Star count */}
+                      {typeof issue.repository_stars === "number" && (
+                        <>
+                          <span className="hidden sm:inline text-[#d0d7de]">•</span>
+                          <a
+                            href={`https://github.com/${profile}/${repoName}/stargazers`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-[#57606a] hover:text-[#0969da] transition-colors"
+                          >
+                            <StarIcon />
+                            <span className="tabular-nums">{issue.repository_stars.toLocaleString()}</span>
+                          </a>
+                        </>
                       )}
 
                       {/* Updated */}
                       {issue.updated_at && (
                         <>
-                          <span className="hidden sm:inline text-gray-300">•</span>
-                          <span className="text-xs text-gray-600">
+                          <span className="hidden sm:inline text-[#d0d7de]">•</span>
+                          <span className="text-xs text-[#57606a]">
                             {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
                           </span>
                         </>
@@ -241,12 +230,13 @@ export default function IssueList(props: IssueListI) {
               );
             })}
           </ul>
+
           {error && currentPage > 1 ? (
-            <div className="w-full flex flex-col justify-center items-center py-6 mt-4 border border-red-200 bg-red-50 rounded-lg text-center">
-              <p className="text-sm text-red-600 mb-2">{strings.listItemError}</p>
+            <div className="w-full flex flex-col justify-center items-center py-6 mt-4 border border-[#ffcecb] bg-[#ffebe9] rounded-md text-center">
+              <p className="text-sm text-[#82071e] mb-2">{strings.listItemError}</p>
               <button
                 onClick={onRetryButtonClick}
-                className="bg-blue-950 rounded-md py-1.5 px-4 text-white text-xs hover:bg-blue-900 transition-colors cursor-pointer inline-flex items-center gap-2"
+                className="bg-white border border-[#d0d7de] rounded-md py-[5px] px-4 text-[#24292f] text-xs font-medium hover:bg-[#f3f4f6] transition-colors cursor-pointer inline-flex items-center gap-2"
               >
                 {isLoading ? (
                   <FontAwesomeIcon
@@ -261,7 +251,7 @@ export default function IssueList(props: IssueListI) {
           ) : (
             <div
               ref={loaderRef}
-              className="w-full flex flex-col justify-center items-center text-center py-8 text-gray-400"
+              className="w-full flex flex-col justify-center items-center text-center py-8 text-[#57606a]"
             >
               <FontAwesomeIcon
                 size={"lg"}
