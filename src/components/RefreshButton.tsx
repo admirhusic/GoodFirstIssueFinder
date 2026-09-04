@@ -11,13 +11,16 @@ export default function RefreshButton(props: RefreshButtonI) {
 
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={"rounded bg-gray-300 text-white py-2 px-3"}
+      aria-label="Refresh issues"
+      className="inline-flex items-center gap-2 rounded-md bg-white border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer"
     >
       <FontAwesomeIcon
-        className={isAnimating ? "animate-spin-slow" : ""}
+        className={isAnimating ? "animate-spin" : ""}
         icon={faRefresh}
       />
+      <span>Refresh</span>
     </button>
   );
 }

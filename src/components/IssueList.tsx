@@ -64,28 +64,35 @@ export default function IssueList(props: IssueListI) {
     return "inline-block h-2 w-2 rounded-full bg-gray-400";
   }
   return (
-    <div className="sm:w-full w-[95%] md:w-1/2 lg:w-1/2 mx-auto rounded">
+    <div className="w-full">
       {isLoadingFullPage ? (
-        <div className="flex flex-col justify-center items-center">
-          <div role="status">
+        <div className="flex flex-col justify-center items-center py-16 text-gray-500">
+          <div role="status" className="flex flex-col items-center gap-3">
             <FontAwesomeIcon
-              size={"xl"}
-              className={"animate-spin-slow"}
+              size={"2x"}
+              className={"animate-spin text-blue-950"}
               icon={faCircleNotch}
             />
+            <span className="text-sm">Loading good first issues...</span>
           </div>
         </div>
       ) : error && currentPage === 1 ? (
-        <div className="text-red-500 text-center">
-          <p>{error}</p>
+        <div className="text-red-600 bg-red-50 border border-red-200 rounded-lg p-6 text-center my-4">
+          <p className="font-medium">{error}</p>
+          <button
+            onClick={onRetryButtonClick}
+            className="mt-3 inline-flex items-center gap-2 bg-blue-950 rounded-md py-1.5 px-4 text-white text-xs font-medium hover:bg-blue-900 transition-colors"
+          >
+            {strings.listItemReloadButtonLabel}
+          </button>
         </div>
       ) : issues?.length === 0 ? (
-        <div className="text-center">
+        <div className="text-center py-12 bg-white rounded-lg border border-gray-200 text-gray-500">
           <p>{strings.noIssuesFound}</p>
         </div>
       ) : (
-        <div className={"pb-6"}>
-           <ul className="mx-auto max-w-5xl">
+        <div className="pb-6">
+          <ul className="w-full space-y-3">
             {issues?.map((issue, idx) => {
               const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
               const profile = owner?.split("/")[0] || "";
@@ -235,38 +242,30 @@ export default function IssueList(props: IssueListI) {
             })}
           </ul>
           {error && currentPage > 1 ? (
-            <div
-              className={
-                "container flex flex-col justify-center items-center h-20 border"
-              }
-            >
-              <p className={"pb-1"}>{strings.listItemError}</p>
+            <div className="w-full flex flex-col justify-center items-center py-6 mt-4 border border-red-200 bg-red-50 rounded-lg text-center">
+              <p className="text-sm text-red-600 mb-2">{strings.listItemError}</p>
               <button
                 onClick={onRetryButtonClick}
-                className={
-                  "bg-blue-950 rounded py-1 px-3 text-white text-xs hover:bg-blue-800 cursor-pointer"
-                }
+                className="bg-blue-950 rounded-md py-1.5 px-4 text-white text-xs hover:bg-blue-900 transition-colors cursor-pointer inline-flex items-center gap-2"
               >
                 {isLoading ? (
                   <FontAwesomeIcon
                     size={"sm"}
-                    className={"animate-spin-slow"}
+                    className={"animate-spin"}
                     icon={faCircleNotch}
                   />
                 ) : null}
-                {strings.listItemReloadButtonLabel}
+                <span>{strings.listItemReloadButtonLabel}</span>
               </button>
             </div>
           ) : (
             <div
               ref={loaderRef}
-              className={
-                "container flex flex-col justify-center items-center text-center h-20 border-r border-l border-b rounded-b"
-              }
+              className="w-full flex flex-col justify-center items-center text-center py-8 text-gray-400"
             >
               <FontAwesomeIcon
-                size={"xl"}
-                className={"animate-spin-slow"}
+                size={"lg"}
+                className={"animate-spin"}
                 icon={faCircleNotch}
               />
             </div>

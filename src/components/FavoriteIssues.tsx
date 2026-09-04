@@ -18,164 +18,169 @@ const FavoriteIssues = () => {
 
   if (!issues) {
     return (
-      <div className="flex flex-col justify-center items-center py-12">
-        <FontAwesomeIcon
-          size="2x"
-          className="animate-spin text-gray-400"
-          icon={faCircleNotch}
-        />
+      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+        <Navbar />
+        <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex flex-col justify-center items-center">
+          <FontAwesomeIcon
+            size="2x"
+            className="animate-spin text-blue-950"
+            icon={faCircleNotch}
+          />
+        </main>
       </div>
     );
   }
 
   if (issues.length === 0) {
     return (
-      <div className="flex flex-col space-y-7">
-        <div>
+      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
         <Navbar />
-        </div>
-
-      <div className="text-center py-12">
-        <FontAwesomeIcon
-          icon={faHeartSolid}
-          className="text-gray-300 text-4xl mb-4"
-          />
-        <p className="text-gray-500">{strings.noFavoriteIssues}</p>
-      </div>
+        <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-24 pb-12">
+          <div className="text-center py-16 bg-white rounded-lg border border-gray-200 shadow-sm">
+            <FontAwesomeIcon
+              icon={faHeartSolid}
+              className="text-gray-300 text-5xl mb-4"
+            />
+            <p className="text-gray-600 font-medium">{strings.noFavoriteIssues}</p>
           </div>
+        </main>
+      </div>
     );
   }
 
   return (
-    <div className="flex flex-col space-y-5">
-        <Navbar />
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+      <Navbar />
+      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12">
+        <div className="pb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-xl font-bold text-gray-900">
+              {strings.favoriteIssues}
+            </h1>
+            <span className="text-xs font-semibold px-2.5 py-1 bg-blue-100 text-blue-900 rounded-full">
+              {issues.length} {issues.length === 1 ? "issue" : "issues"}
+            </span>
+          </div>
+          <ul className="w-full space-y-3">
+            {issues.map((issue, idx) => {
+              const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
+              const profile = owner?.split("/")[0] || "";
+              const repoName = repo?.split("/")[0] || "";
 
-    
-    <div className="sm:w-full w-[95vw] md:w-1/2 lg:w-1/2 mx-auto rounded pt-8">
-      <div className="pb-6">
-        <h1 className="text-xl font-semibold mb-4 text-gray-900">
-          {strings.favoriteIssues} ({issues.length})
-        </h1>
-        <ul className="mx-auto max-w-5xl">
-          {issues.map((issue, idx) => {
-            const [_, owner = "", repo = ""] = issue.html_url.split("github.com/");
-            const profile = owner?.split("/")[0] || "";
-            const repoName = repo?.split("/")[0] || "";
-
-            return (
-              <li key={issue.html_url + idx} className="mb-3">
-                <div className="group relative w-full rounded-lg border bg-white shadow-sm hover:shadow transition-shadow ring-0 hover:ring-1 hover:ring-gray-200">
-                  {/* Header: Repo owner/repo and unfavorite button */}
-                  <div className="flex items-start justify-between gap-4 px-4 pt-3">
-                    <div className="min-w-0">
-                      <div className="flex items-center text-sm">
-                        <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
+              return (
+                <li key={issue.html_url + idx}>
+                  <div className="group relative w-full rounded-lg border bg-white shadow-sm hover:shadow transition-shadow ring-0 hover:ring-1 hover:ring-gray-200">
+                    {/* Header: Repo owner/repo and unfavorite button */}
+                    <div className="flex items-start justify-between gap-4 px-4 pt-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center text-sm">
+                          <Popover trigger="hover" content={UserProfilePopoverContent(issue)}>
+                            <a
+                              className="truncate font-medium hover:underline"
+                              target="_blank"
+                              rel="noreferrer"
+                              href={`https://github.com/${profile}`}
+                            >
+                              {profile}
+                            </a>
+                          </Popover>
+                          <span className="mx-1 text-gray-400">/</span>
                           <a
                             className="truncate font-medium hover:underline"
                             target="_blank"
                             rel="noreferrer"
-                            href={`https://github.com/${profile}`}
+                            href={`https://github.com/${profile}/${repoName}`}
                           >
-                            {profile}
+                            {repoName}
                           </a>
-                        </Popover>
-                        <span className="mx-1 text-gray-400">/</span>
-                        <a
-                          className="truncate font-medium hover:underline"
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://github.com/${profile}/${repoName}`}
-                        >
-                          {repoName}
-                        </a>
+                        </div>
                       </div>
+
+                      <button
+                        onClick={() => removeFavorite(issue)}
+                        type="button"
+                        aria-label="Remove from favorites"
+                        className="inline-flex items-center gap-2 rounded-md border border-red-200 px-2.5 py-1 text-xs font-medium text-red-500 hover:bg-red-50 active:bg-red-100 transition-colors"
+                      >
+                        <HeartIcon />
+                        <span>{strings.btnUnfavorite}</span>
+                      </button>
                     </div>
 
-                    <button
-                      onClick={() => removeFavorite(issue)}
-                      type="button"
-                      aria-label="Remove from favorites"
-                      className="inline-flex items-center gap-2 rounded-md border px-2 py-1 text-xs font-medium text-red-500 hover:bg-red-50 active:bg-red-100"
-                    >
-                      <HeartIcon />
-                      <span>{strings.btnUnfavorite}</span>
-                    </button>
-                  </div>
+                    {/* Title */}
+                    <div className="mt-1 flex items-center gap-2 px-4">
+                      <IssueOpenedIcon className="shrink-0 text-green-600" />
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={issue.html_url}
+                        className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
+                        title={issue.title}
+                      >
+                        {issue.title}
+                      </a>
+                    </div>
 
-                  {/* Title */}
-                  <div className="mt-1 flex items-center gap-2 px-4">
-                    <IssueOpenedIcon className="shrink-0 text-green-600" />
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={issue.html_url}
-                      className="truncate font-semibold leading-6 text-gray-900 hover:text-blue-600"
-                      title={issue.title}
-                    >
-                      {issue.title}
-                    </a>
-                  </div>
+                    {/* Description */}
+                    {issue.body && (
+                      <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
+                        {issue.body}
+                      </p>
+                    )}
 
-                  {/* Description */}
-                  {issue.body && (
-                    <p className="mt-1 line-clamp-2 px-8 pr-4 text-sm text-gray-700">
-                      {issue.body}
-                    </p>
-                  )}
+                    {/* Metadata */}
+                    <div className="mt-3 flex flex-wrap items-center gap-3 px-4 pb-3">
+                      {/* Assignees */}
+                      {issue.assignees?.length ? (
+                        <div className="flex items-center">
+                          {issue.assignees.map((a, i) => (
+                            <img
+                              key={i}
+                              src={a.avatar_url}
+                              alt=""
+                              className={[
+                                "h-5 w-5 rounded-full ring-2 ring-white",
+                                i ? "-ml-2" : "",
+                              ].join(" ")}
+                            />
+                          ))}
+                          <span className="ml-2 text-xs text-gray-600">
+                            {issue.assignees.length} assignee
+                            {issue.assignees.length > 1 ? "s" : ""}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
+                      )}
 
-                  {/* Metadata */}
-                  <div className="mt-3 flex flex-wrap items-center gap-3 px-4 pb-3">
-                    {/* Assignees */}
-                    {issue.assignees?.length ? (
-                      <div className="flex items-center">
-                        {issue.assignees.map((a, i) => (
-                          <img
-                            key={i}
-                            src={a.avatar_url}
-                            alt=""
-                            className={[
-                              "h-5 w-5 rounded-full ring-2 ring-white",
-                              i ? "-ml-2" : "",
-                            ].join(" ")}
-                          />
-                        ))}
-                        <span className="ml-2 text-xs text-gray-600">
-                          {issue.assignees.length} assignee
-                          {issue.assignees.length > 1 ? "s" : ""}
+                      {/* Separator */}
+                      <span className="hidden sm:inline text-gray-300">•</span>
+
+                      {/* Language */}
+                      {issue.repository_language && (
+                        <span className="flex items-center gap-2 text-xs text-gray-700">
+                          <span className={langDotClass(issue.repository_language)} />
+                          {issue.repository_language}
                         </span>
-                      </div>
-                    ) : (
-                      <span className="text-xs font-medium text-green-600">{strings.NoAssignee}</span>
-                    )}
+                      )}
 
-                    {/* Separator */}
-                    <span className="hidden sm:inline text-gray-300">•</span>
-
-                    {/* Language */}
-                    {issue.repository_language && (
-                      <span className="flex items-center gap-2 text-xs text-gray-700">
-                        <span className={langDotClass(issue.repository_language)} />
-                        {issue.repository_language}
-                      </span>
-                    )}
-
-                    {/* Updated Date */}
-                    {issue.updated_at && (
-                      <>
-                        <span className="hidden sm:inline text-gray-300">•</span>
-                        <span className="text-xs text-gray-600">
-                          {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
-                        </span>
-                      </>
-                    )}
+                      {/* Updated Date */}
+                      {issue.updated_at && (
+                        <>
+                          <span className="hidden sm:inline text-gray-300">•</span>
+                          <span className="text-xs text-gray-600">
+                            {strings.updatedOn} {new Date(issue.updated_at).toLocaleDateString()}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </main>
     </div>
   );
 };

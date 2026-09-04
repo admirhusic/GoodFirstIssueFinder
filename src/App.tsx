@@ -95,38 +95,37 @@ function App() {
   };
 
   return (
-    <>
-      <div>
-        <Navbar />
-        <div className={"container mx-auto flex flex-col pt-[50px]"}>
-          <SearchInput
-            onLanguageChange={onLanguageChange}
-            onSearchStringChange={onSearchInputChange}
-          />
-          <div
-            className={
-              "flex w-[95%] sm:w-full md:w-1/2 lg:w-1/2 mx-auto justify-end items-center mb-2"
-            }
-          >
-            <RefreshButton
-              isAnimating={isLoading}
-              onClick={onRefreshButtonClick}
-            />
-          </div>
-
-          <IssueList
-            isLoadingFullPage={isLoadingFullPage}
-            isLoading={isLoading}
-            error={error}
-            issues={issues}
-            totalPages={totalPages}
-            onReachedBottom={loadNewData}
-            currentPage={currentPage}
-            onRetry={retry}
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+      <Navbar />
+      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12 flex flex-col gap-4">
+        <SearchInput
+          onLanguageChange={onLanguageChange}
+          onSearchStringChange={onSearchInputChange}
+        />
+        <div className="flex w-full justify-between items-center px-0.5">
+          <span className="text-xs text-gray-500 font-medium">
+            {issues && issues.length > 0
+              ? `${totalPages ? totalPages.toLocaleString() : issues.length} issues found`
+              : ""}
+          </span>
+          <RefreshButton
+            isAnimating={isLoading}
+            onClick={onRefreshButtonClick}
           />
         </div>
-      </div>
-    </>
+
+        <IssueList
+          isLoadingFullPage={isLoadingFullPage}
+          isLoading={isLoading}
+          error={error}
+          issues={issues}
+          totalPages={totalPages}
+          onReachedBottom={loadNewData}
+          currentPage={currentPage}
+          onRetry={retry}
+        />
+      </main>
+    </div>
   );
 }
 

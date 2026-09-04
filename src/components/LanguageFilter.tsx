@@ -14,8 +14,24 @@ export default function LanguageFilter(props: LanguageFilterI) {
 
 
   return (
-    <div className="sm:w-full md:w-1/2 lg:w-1/2 mx-auto mb-3 flex flex-col items-start justify-start">
-      <Select options={programmingLanguages} isMulti placeholder={strings.searchLanguages} className="w-full" onChange={(langs) => handleSearchChange(langs)} />
+    <div className="w-full">
+      <Select
+        options={programmingLanguages}
+        isMulti
+        placeholder={strings.searchLanguages}
+        className="w-full text-sm"
+        onChange={(langs) => handleSearchChange(langs)}
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            borderRadius: "0.5rem",
+            borderColor: state.isFocused ? "#1e3a8a" : "#d1d5db",
+            boxShadow: state.isFocused ? "0 0 0 2px rgba(30, 58, 138, 0.15)" : undefined,
+            padding: "2px",
+            backgroundColor: "#ffffff",
+          }),
+        }}
+      />
     </div>
   );
 }
