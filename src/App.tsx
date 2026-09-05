@@ -51,7 +51,14 @@ function App() {
     } else {
       setError("");
       if (scroll) {
-        setIssues((issues) => issues!.concat(newData.items || []));
+        setIssues((issues) => {
+          const existingIssues = issues || [];
+          const existingUrls = new Set(existingIssues.map((issue) => issue.html_url));
+          const newIssues = (newData.items || []).filter(
+            (issue) => !existingUrls.has(issue.html_url),
+          );
+          return existingIssues.concat(newIssues);
+        });
       } else {
         setIssues(newData.items);
       }
@@ -85,8 +92,9 @@ function App() {
 
   const loadNewData = () => {
     if (isLoading) return;
-    setCurrentPage((prevPage) => prevPage + 1);
-    getData(languages, searchString, currentPage, true);
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    getData(languages, searchString, nextPage, true);
   };
 
   const retry = () => {
